@@ -8,22 +8,28 @@ export default function Portfolio() {
   const [selectedProject, setSelectedProject] = React.useState(null);
 
   const projects = [
-    {
+   {
       id: 1,
       title: "Binar Car Rental",
       description:
-        "A premium web application for searching, filtering, and renting cars in the Surabaya area. Built for Binar Academy challenges.",
+        "A static UI prototyping project focused on Tailwind CSS slicing and React.js component structure, built for Binar Academy challenges.",
       longDescription:
-        "Binar Car Rental is a comprehensive web platform built to simulate a car rental provider's catalog. It features interactive filtering for driver types, dates, times, and passenger capacity, allowing users to find available cars based on their specific needs. Developed using clean styling, responsive layouts, and interactive components.",
+        "Binar Car Rental is a frontend practice project focused on static UI prototyping and pixel-perfect slicing. Built for the Binar Academy challenge, it demonstrates the ability to translate design mockups into clean, responsive web pages using React.js and Tailwind CSS. The project highlights foundational skills in component-based architecture, semantic HTML, and modern CSS styling without complex state management or backend integration.",
       image: binarCarRental,
       liveUrl: "https://challenges-1.vercel.app/",
-      technologies: ["React", "Vite", "Tailwind CSS", "JavaScript (ES6)", "HTML5/CSS3"],
+      technologies: [
+        "React",
+        "Vite",
+        "Tailwind CSS",
+        "JavaScript (ES6)",
+        "HTML5/CSS3",
+      ],
       features: [
-        "Interactive Car Search & Filter System",
-        "Driver Availability and Rental Duration Selector",
-        "Fully Responsive Web Layout (Mobile & Desktop)",
-        "Elegant Modern UI Design & Glassmorphism"
-      ]
+        "Pixel-perfect UI Slicing from Design Mockups",
+        "Fully Responsive Layout (Mobile & Desktop)",
+        "Component-based Architecture using React.js",
+        "Clean and Modern Styling with Tailwind CSS",
+      ],
     },
     {
       id: 2,

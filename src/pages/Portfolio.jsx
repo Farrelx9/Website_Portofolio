@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import profilePhoto from "../assets/profile_photo.jpg";
 import binarCarRental from "../assets/binar_car_rental.png";
+import iclixProject from "../assets/iclix_project.png";
 
 export default function Portfolio() {
   const [selectedProject, setSelectedProject] = React.useState(null);
@@ -33,15 +34,30 @@ export default function Portfolio() {
     },
     {
       id: 2,
-      title: "Project Name 2",
+      title: "ICLIX",
       description:
-        "A brief description of the project and the technologies used to build it.",
+        "A movie streaming web app powered by TMDB API. Built to learn REST API fetching, query params, and OAuth-based authentication.",
       longDescription:
-        "This project is a placeholder for another premium web application. It will showcase full-stack capabilities, state management, and modern styling solutions once implemented.",
-      image: null,
-      liveUrl: "#",
-      technologies: ["React", "Tailwind CSS", "Node.js"],
-      features: ["Custom feature 1", "Custom feature 2"]
+        "ICLIX is a movie browsing and streaming web application built as a hands-on learning project focused on real-world API integration. It fetches live movie data from The Movie Database (TMDB) API using query parameters for search and filtering. The project also implements OAuth-based login flow and demonstrates key concepts like async data fetching, dynamic routing, and responsive UI design with a dark Netflix-inspired theme.",
+      image: iclixProject,
+      liveUrl: "https://iclix.vercel.app/",
+      technologies: [
+        "React",
+        "Vite",
+        "TMDB API",
+        "REST API",
+        "OAuth",
+        "Query Params",
+        "JavaScript (ES6)",
+      ],
+      features: [
+        "Live Movie Data from TMDB API",
+        "Search & Filter with Query Parameters",
+        "OAuth-based User Authentication",
+        "Movie Recommendations & Trailers",
+        "Responsive Dark-themed UI",
+        "Dynamic Movie Detail Pages",
+      ]
     },
     {
       id: 3,

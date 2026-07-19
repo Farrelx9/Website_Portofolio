@@ -6,6 +6,7 @@ import certificateReact from "../assets/Studi Independen_Cycle6_Cert_Farrel Farh
 
 export default function Certificates() {
   const [selectedCertificate, setSelectedCertificate] = React.useState(null);
+  const [lightboxOpen, setLightboxOpen] = React.useState(false);
 
   const certificates = [
     {
@@ -17,7 +18,7 @@ export default function Certificates() {
       image: certificateBinar,
       pdfUrl: "#",
       description:
-        "Sertifikat kelulusan program intensif Full-Stack Web Development yang memvalidasi keterampilan praktis dalam membangun aplikasi web modern yang responsif dan berskala dari frontend hingga backend.",
+        "Certificate of completion for an intensive Full-Stack Web Development program, validating hands-on skills in building responsive, scalable modern web applications from frontend to backend.",
       skills: [
         "React.js",
         "Node.js",
@@ -36,7 +37,7 @@ export default function Certificates() {
       image: certificateReact,
       pdfUrl: "#",
       description:
-        "Sertifikasi keahlian khusus pengembangan frontend menggunakan library React.js, meliputi manajemen state (Context/Redux), hooks, dynamic routing, rest API fetching, dan optimalisasi performa.",
+        "A specialized frontend development certification using the React.js library, covering state management (Context/Redux), hooks, dynamic routing, REST API fetching, and performance optimization.",
       skills: [
         "React Hooks",
         "State Management",
@@ -125,13 +126,12 @@ export default function Certificates() {
               onClick={() => setSelectedCertificate(cert)}
               className="bg-[#0D0F14]/40 border border-white/[0.06] hover:border-white/[0.15] rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-white/[0.02] hover:-translate-y-1.5 transition-all duration-500 flex flex-col group cursor-pointer"
             >
-              <div className="h-56 overflow-hidden relative bg-[#090A0E] border-b border-white/[0.04]">
+              <div className="h-56 overflow-hidden relative bg-white flex items-center justify-center p-4 border-b border-white/[0.04]">
                 <img
                   src={cert.image}
                   alt={cert.title}
-                  className="w-full h-full object-cover object-top transform transition-all duration-700 ease-out group-hover:scale-102"
+                  className="w-full h-full object-contain transform transition-all duration-700 ease-out group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0D0F14]/80 via-transparent to-transparent opacity-60 pointer-events-none"></div>
               </div>
               <div className="p-7 flex flex-col flex-1">
                 <div className="flex items-center justify-between mb-3">
@@ -182,7 +182,7 @@ export default function Certificates() {
         </div>
       </footer>
 
-      {/* Modal Popup */}
+      {/* Detail Modal */}
       <AnimatePresence>
         {selectedCertificate && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
@@ -221,13 +221,34 @@ export default function Certificates() {
                 </svg>
               </button>
 
-              <div className="h-64 sm:h-72 overflow-hidden relative border-b border-white/[0.04]">
+              {/* Certificate image — shown in full (object-contain), click to zoom */}
+              <div
+                onClick={() => setLightboxOpen(true)}
+                className="relative h-72 sm:h-80 overflow-hidden bg-white flex items-center justify-center p-4 border-b border-white/[0.04] cursor-zoom-in group/zoom"
+              >
                 <img
                   src={selectedCertificate.image}
                   alt={selectedCertificate.title}
-                  className="w-full h-full object-cover object-top"
+                  className="w-full h-full object-contain"
                 />
-                <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#0D0F14] to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-black/0 group-hover/zoom:bg-black/10 transition-colors duration-300 flex items-end justify-end p-3">
+                  <span className="opacity-0 group-hover/zoom:opacity-100 transition-opacity duration-300 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-black bg-white/90 px-3 py-1.5 rounded-md shadow-lg">
+                    <svg
+                      className="w-3.5 h-3.5"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16zM11 8v6M8 11h6"
+                      />
+                    </svg>
+                    View Full Size
+                  </span>
+                </div>
               </div>
 
               <div className="p-6 sm:p-8 overflow-y-auto space-y-6 flex-1">
@@ -268,33 +289,71 @@ export default function Certificates() {
                 >
                   Close
                 </button>
-                {selectedCertificate.pdfUrl &&
-                  selectedCertificate.pdfUrl !== "#" && (
-                    <a
-                      href={selectedCertificate.pdfUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-5 py-2.5 rounded-lg bg-white hover:bg-gray-200 text-black transition-all duration-300 font-bold text-xs tracking-wider uppercase flex items-center gap-2 cursor-pointer active:scale-95"
-                    >
-                      View Certificate
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
-                        />
-                      </svg>
-                    </a>
-                  )}
+                <button
+                  onClick={() => setLightboxOpen(true)}
+                  className="px-5 py-2.5 rounded-lg bg-white hover:bg-gray-200 text-black transition-all duration-300 font-bold text-xs tracking-wider uppercase flex items-center gap-2 cursor-pointer active:scale-95"
+                >
+                  View Full Size
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9m11.25-5.25v4.5m0-4.5h-4.5m4.5 0L15 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15m11.25 5.25v-4.5m0 4.5h-4.5m4.5 0L15 15"
+                    />
+                  </svg>
+                </button>
               </div>
             </motion.div>
           </div>
+        )}
+      </AnimatePresence>
+
+      {/* Full-size Lightbox */}
+      <AnimatePresence>
+        {lightboxOpen && selectedCertificate && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setLightboxOpen(false)}
+            className="fixed inset-0 z-[60] bg-[#050608]/98 backdrop-blur-lg flex items-center justify-center p-4 sm:p-10 cursor-zoom-out"
+          >
+            <button
+              onClick={() => setLightboxOpen(false)}
+              className="absolute top-5 right-5 z-10 p-2 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-white border border-white/[0.1] transition duration-300 cursor-pointer"
+              aria-label="Close full size view"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+            <motion.img
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              onClick={(e) => e.stopPropagation()}
+              src={selectedCertificate.image}
+              alt={selectedCertificate.title}
+              className="max-w-full max-h-full object-contain rounded-lg shadow-2xl bg-white"
+            />
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

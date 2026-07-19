@@ -2,7 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import certificateBinar from "../assets/Studi Independen_Cycle6_Cert_Farrel Farhan-1.png";
-import certificateReact from "../assets/Studi Independen_Cycle6_Cert_Farrel Farhan-1.png";
+import certificateLsp from "../assets/Sertif LSP-1.png";
+import certificateEpt from "../assets/EPT-1.png";
 
 export default function Certificates() {
   const [selectedCertificate, setSelectedCertificate] = React.useState(null);
@@ -12,38 +13,54 @@ export default function Certificates() {
     {
       id: 1,
       num: "01",
-      title: "Full-Stack Web Development Boot Camp",
+      title: "Front End Javascript Wave 6",
       issuer: "Binar Academy",
-      date: "2025",
+      date: "2024",
       image: certificateBinar,
       pdfUrl: "#",
       description:
-        "Certificate of completion for an intensive Full-Stack Web Development program, validating hands-on skills in building responsive, scalable modern web applications from frontend to backend.",
+        "Certificate of completion for the Front End Javascript program under the Studi Independen Bersertifikat (Kampus Merdeka) initiative at Binar Academy, validating hands-on skills in building responsive, interactive user interfaces and working with modern Javascript ecosystems.",
       skills: [
         "React.js",
-        "Node.js",
-        "Express.js",
-        "PostgreSQL",
-        "Tailwind CSS",
         "JavaScript",
+        "Tailwind CSS",
+        "HTML & CSS",
+        "Responsive Design",
       ],
     },
     {
       id: 2,
       num: "02",
-      title: "React.js Developer Certification",
-      issuer: "Coding Academy",
+      title: "Junior Web Programmer",
+      issuer: "LSP UPN \"Veteran\" Jawa Timur (BNSP)",
       date: "2025",
-      image: certificateReact,
+      image: certificateLsp,
       pdfUrl: "#",
       description:
-        "A specialized frontend development certification using the React.js library, covering state management (Context/Redux), hooks, dynamic routing, REST API fetching, and performance optimization.",
+        "National competency certification as a Junior Web Programmer issued by LSP UPN \"Veteran\" Jawa Timur under the authority of the National Professional Certification Board (BNSP), certifying professional proficiency in programming, database implementation, and software development standards.",
       skills: [
-        "React Hooks",
-        "State Management",
-        "REST API",
-        "Vite",
-        "ES6+ JavaScript",
+        "Web Programming",
+        "Database (SQL)",
+        "Structured Programming",
+        "Software Standards",
+        "Debugging",
+      ],
+    },
+    {
+      id: 3,
+      num: "03",
+      title: "English Proficiency Test (EPT)",
+      issuer: "Language Center UPN \"Veteran\" Jawa Timur",
+      date: "2025",
+      image: certificateEpt,
+      pdfUrl: "#",
+      description:
+        "English Proficiency Test (EPT) certificate issued by the Language Center (UPA Bahasa) of UPN \"Veteran\" Jawa Timur, certifying English proficiency with a score of 450 (Listening: 47, Structure: 44, Reading: 44).",
+      skills: [
+        "English Proficiency",
+        "Listening Comprehension",
+        "Written Expression",
+        "Reading Comprehension",
       ],
     },
   ];
@@ -77,6 +94,12 @@ export default function Certificates() {
           <li className="text-white cursor-pointer transition-colors duration-300 flex items-center gap-1.5">
             <span className="text-[10px] text-[#FF9D23] font-bold">03/</span>{" "}
             Certificates
+          </li>
+          <li className="text-gray-400 hover:text-white cursor-pointer transition-colors duration-300 flex items-center gap-1.5">
+            <Link to="/experience" className="flex items-center gap-1.5">
+              <span className="text-[10px] text-[#16C47F] font-bold">04/</span>{" "}
+              Experience
+            </Link>
           </li>
         </ul>
       </nav>
@@ -112,8 +135,7 @@ export default function Certificates() {
         </h2>
         <p className="text-gray-400 mt-6 max-w-xl leading-relaxed font-light">
           Formal training and assessments completed alongside the projects in my
-          portfolio — covering full-stack fundamentals through to React-specific
-          frontend engineering.
+          portfolio — covering frontend development through to national web programming standards.
         </p>
       </header>
 

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Portfolio from "./pages/Portfolio";
 import Certificates from "./pages/Certificate";
+import Experience from "./pages/Experience";
 import LoadingScreen from "./components/LoadingScreen";
 
 // ==========================================
@@ -44,6 +45,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Portfolio />} />
           <Route path="/certificates" element={<Certificates />} />
+          <Route path="/experience" element={<Experience />} />
         </Routes>
       </BrowserRouter>
     </div>

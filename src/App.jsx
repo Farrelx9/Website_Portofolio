@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Portfolio from "./pages/Portfolio";
+import Certificates from "./pages/Certificate";
 import LoadingScreen from "./components/LoadingScreen";
 
 // ==========================================
@@ -11,7 +12,7 @@ import LoadingScreen from "./components/LoadingScreen";
 // - 0.05 minutes = 3 seconds (Ideal for testing)
 // - 0.1 minutes  = 6 seconds
 // - 1.0 minutes  = 60 seconds
-const LOADING_DURATION_MINUTES = 0.05; 
+const LOADING_DURATION_MINUTES = 0.05;
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -42,6 +43,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Portfolio />} />
+          <Route path="/certificates" element={<Certificates />} />
         </Routes>
       </BrowserRouter>
     </div>

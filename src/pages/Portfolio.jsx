@@ -11,6 +11,9 @@ export default function Portfolio() {
   const [selectedProject, setSelectedProject] = React.useState(null);
   const [activeImageIndex, setActiveImageIndex] = React.useState(0);
 
+  // Detect mobile devices (screens smaller than 768px)
+  const isMobile = window.innerWidth < 768;
+
   const projects = [
     {
       id: 1,
@@ -109,12 +112,20 @@ export default function Portfolio() {
         </div>
         <ul className="flex space-x-8 text-sm font-medium tracking-wider">
           <li className="text-gray-400 hover:text-white cursor-pointer transition-colors duration-300 flex items-center gap-1.5">
-            <span className="text-[10px] text-[#16C47F] font-bold">01/</span> Home
+            <span className="text-[10px] text-[#16C47F] font-bold">01/</span>{" "}
+            Home
           </li>
           <li className="text-gray-400 hover:text-white cursor-pointer transition-colors duration-300 flex items-center gap-1.5">
             <a href="#projects" className="flex items-center gap-1.5">
-              <span className="text-[10px] text-[#FFD65A] font-bold">02/</span> Projects
+              <span className="text-[10px] text-[#FFD65A] font-bold">02/</span>{" "}
+              Projects
             </a>
+          </li>
+          <li className="text-gray-400 hover:text-white cursor-pointer transition-colors duration-300 flex items-center gap-1.5">
+            <Link to="/certificates" className="flex items-center gap-1.5">
+              <span className="text-[10px] text-[#FF9D23] font-bold">03/</span>{" "}
+              Certificates
+            </Link>
           </li>
           <li className="text-gray-400 hover:text-white cursor-pointer transition-colors duration-300 flex items-center gap-1.5">
             <a
@@ -123,7 +134,8 @@ export default function Portfolio() {
               rel="noopener noreferrer"
               className="flex items-center gap-1.5"
             >
-              <span className="text-[10px] text-[#FF9D23] font-bold">03/</span> Contact
+              <span className="text-[10px] text-gray-400 font-bold">04/</span>{" "}
+              Contact
             </a>
           </li>
         </ul>
@@ -136,21 +148,27 @@ export default function Portfolio() {
           <div className="flex-1 text-center md:text-left">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.02] border border-white/[0.06] mb-8">
               <span className="w-1.5 h-1.5 rounded-full bg-[#16C47F] animate-pulse"></span>
-              <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Available for hire</span>
+              <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
+                Available for hire
+              </span>
             </div>
-            
+
             <h2 className="text-5xl md:text-7xl font-light mb-6 tracking-tight text-white leading-none">
-              Junior Full-Stack Developer <br />
+              Fresh Graduate Full-Stack Developer <br />
               <span className="font-extrabold bg-gradient-to-r from-[#16C47F] via-[#FFD65A] to-[#FF9D23] bg-clip-text text-transparent">
-                building for scale.
+                {isMobile ? "building for scale." : "Building for Scale."}
               </span>
             </h2>
-            
+
             <p className="text-lg text-gray-400 mb-10 max-w-lg leading-relaxed mx-auto md:mx-0 font-light">
-              Hi, I'm Farrel Farhan, a Junior Full-Stack Developer passionate about building clean, scalable, and user-focused web applications. With strong fundamentals in JavaScript, React, and modern web technologies, I specialize in turning design concepts into responsive, high-performance interfaces — always learning, iterating, and committed to delivering high-quality work.
+              Hi, I'm Farrel Farhan, a Fresh Graduate Full-Stack Developer
+              passionate about building clean, scalable, and user-focused web
+              applications. With strong fundamentals in JavaScript, React, and
+              modern web technologies, I specialize in turning design concepts
+              into responsive, high-performance interfaces — always learning,
+              iterating, and committed to delivering high-quality work.
             </p>
 
-            
             <div className="flex flex-wrap gap-4 justify-center md:justify-start">
               <a
                 href="#projects"
@@ -178,7 +196,11 @@ export default function Portfolio() {
                   strokeWidth="2.5"
                   viewBox="0 0 24 24"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16"
+                  />
                 </svg>
                 Download CV
               </a>
@@ -191,7 +213,7 @@ export default function Portfolio() {
               {/* Sleek architectural wireframe frame behind photo */}
               <div className="absolute inset-4 border border-[#16C47F]/40 translate-x-4 translate-y-4 rounded-2xl group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-500"></div>
               <div className="absolute inset-4 border border-[#FF9D23]/30 -translate-x-4 -translate-y-4 rounded-2xl group-hover:-translate-x-2 group-hover:-translate-y-2 transition-transform duration-500"></div>
-              
+
               {/* Photo Frame */}
               <div className="relative w-64 aspect-[3/4] md:w-80 bg-[#0D0F14] border border-white/[0.08] rounded-2xl p-2 overflow-hidden flex items-center justify-center shadow-2xl">
                 <img
@@ -206,12 +228,20 @@ export default function Portfolio() {
       </header>
 
       {/* Projects Section */}
-      <section id="projects" className="py-28 px-8 max-w-7xl mx-auto border-t border-white/[0.04] relative z-10">
+      <section
+        id="projects"
+        className="py-28 px-8 max-w-7xl mx-auto border-t border-white/[0.04] relative z-10"
+      >
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-4">
           <div>
-            <span className="text-xs text-[#16C47F] font-bold tracking-widest uppercase block mb-2">[ 02 / SELECTED WORK ]</span>
+            <span className="text-xs text-[#16C47F] font-bold tracking-widest uppercase block mb-2">
+              [ 02 / SELECTED WORK ]
+            </span>
             <h3 className="text-3xl md:text-4xl font-light text-white tracking-tight">
-           A curated portfolio of <span className="font-extrabold">production-ready web applications</span>
+              A curated portfolio of{" "}
+              <span className="font-extrabold">
+                production-ready web applications
+              </span>
             </h3>
           </div>
           <div className="h-px bg-white/[0.05] flex-1 mx-8 hidden md:block"></div>
@@ -239,7 +269,9 @@ export default function Portfolio() {
                         <span className="w-1.5 h-1.5 rounded-full bg-[#FFD65A]/70"></span>
                         <span className="w-1.5 h-1.5 rounded-full bg-[#16C47F]/70"></span>
                         <span className="ml-2 flex-1 bg-white/[0.03] rounded-sm h-4 text-[9px] text-gray-500 tracking-wider flex items-center px-3 truncate">
-                          {project.liveUrl !== "#" ? project.liveUrl.replace("https://", "") : project.title}
+                          {project.liveUrl !== "#"
+                            ? project.liveUrl.replace("https://", "")
+                            : project.title}
                         </span>
                       </div>
                       <img
@@ -257,10 +289,15 @@ export default function Portfolio() {
                   )}
                   <div className="p-7">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-[10px] text-gray-500 font-mono tracking-widest font-bold">PROJ / {project.num}</span>
+                      <span className="text-[10px] text-gray-500 font-mono tracking-widest font-bold">
+                        PROJ / {project.num}
+                      </span>
                       <div className="flex gap-1.5">
                         {project.technologies.slice(0, 2).map((tech) => (
-                          <span key={tech} className="text-[9px] text-[#FF9D23] bg-[#FF9D23]/5 px-2 py-0.5 rounded-md border border-[#FF9D23]/10 font-bold uppercase tracking-wider">
+                          <span
+                            key={tech}
+                            className="text-[9px] text-[#FF9D23] bg-[#FF9D23]/5 px-2 py-0.5 rounded-md border border-[#FF9D23]/10 font-bold uppercase tracking-wider"
+                          >
                             {tech}
                           </span>
                         ))}
@@ -296,13 +333,51 @@ export default function Portfolio() {
         </div>
       </section>
 
+      {/* Certificates CTA Section */}
+      <section className="px-8 max-w-7xl mx-auto pb-28 relative z-10">
+        <div className="border border-white/[0.06] rounded-2xl bg-[#0D0F14]/40 px-8 py-12 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div>
+            <span className="text-xs text-[#FF9D23] font-bold tracking-widest uppercase block mb-2">
+              [ 03 / CREDENTIALS ]
+            </span>
+            <h3 className="text-2xl md:text-3xl font-light text-white tracking-tight">
+              Backed by{" "}
+              <span className="font-extrabold">formal certifications</span>
+            </h3>
+            <p className="text-gray-400 mt-3 max-w-md font-light text-sm leading-relaxed">
+              A closer look at the full-stack and React-focused programs I've
+              completed.
+            </p>
+          </div>
+          <Link
+            to="/certificates"
+            className="shrink-0 px-7 py-3 bg-white text-black hover:bg-gray-200 rounded-lg font-bold tracking-wide transition-all duration-300 shadow-xl shadow-white/5 hover:-translate-y-0.5 cursor-pointer text-sm inline-flex items-center gap-2"
+          >
+            View Certificates
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+              />
+            </svg>
+          </Link>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="py-16 text-gray-500 border-t border-white/[0.04] mt-auto bg-[#050608] relative z-10">
         <div className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Copyright & Email */}
           <div className="flex flex-col items-center md:items-start order-2 md:order-1 gap-2.5">
             <p className="text-xs tracking-wide">
-              &copy; {new Date().getFullYear()} Farrel Farhan. 
+              &copy; {new Date().getFullYear()} Farrel Farhan.
             </p>
             <a
               href="https://mail.google.com/mail/?view=cm&fs=1&to=farrelfarhan902@gmail.com"
@@ -310,8 +385,18 @@ export default function Portfolio() {
               rel="noopener noreferrer"
               className="text-xs text-gray-400 hover:text-[#FFD65A] transition-colors duration-300 flex items-center gap-2"
             >
-              <svg className="w-3.5 h-3.5 text-[#FF9D23]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              <svg
+                className="w-3.5 h-3.5 text-[#FF9D23]"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                />
               </svg>
               farrelfarhan902@gmail.com
             </a>
@@ -327,7 +412,11 @@ export default function Portfolio() {
               aria-label="GitHub"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z" />
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"
+                />
               </svg>
             </a>
 
@@ -362,8 +451,18 @@ export default function Portfolio() {
               className="text-gray-400 hover:text-white transition-colors duration-300"
               aria-label="Email"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                />
               </svg>
             </a>
           </div>
@@ -397,8 +496,18 @@ export default function Portfolio() {
                 className="absolute top-4 right-4 z-25 p-1.5 rounded-full bg-white/[0.02] hover:bg-white/[0.08] text-gray-400 hover:text-white border border-white/[0.06] transition duration-300 backdrop-blur-md cursor-pointer"
                 aria-label="Close modal"
               >
-                <svg className="w-4.5 h-4.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                <svg
+                  className="w-4.5 h-4.5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
 
@@ -411,7 +520,9 @@ export default function Portfolio() {
                     <span className="w-1.5 h-1.5 rounded-full bg-[#FFD65A]/70"></span>
                     <span className="w-1.5 h-1.5 rounded-full bg-[#16C47F]/70"></span>
                     <span className="ml-3 flex-1 bg-white/[0.03] rounded text-[10px] text-gray-500 h-5 flex items-center px-3 truncate max-w-xs">
-                      {selectedProject.liveUrl !== "#" ? selectedProject.liveUrl.replace("https://", "") : selectedProject.title}
+                      {selectedProject.liveUrl !== "#"
+                        ? selectedProject.liveUrl.replace("https://", "")
+                        : selectedProject.title}
                     </span>
                   </div>
                   {/* Screenshot — full-bleed, cropped to top */}
@@ -440,7 +551,8 @@ export default function Portfolio() {
                               : "text-gray-400 hover:text-white hover:bg-white/5"
                           }`}
                         >
-                          {selectedProject.imageLabels?.[idx] || `View ${idx + 1}`}
+                          {selectedProject.imageLabels?.[idx] ||
+                            `View ${idx + 1}`}
                         </button>
                       ))}
                     </div>
@@ -454,7 +566,9 @@ export default function Portfolio() {
                     <span className="w-1.5 h-1.5 rounded-full bg-[#FFD65A]/70"></span>
                     <span className="w-1.5 h-1.5 rounded-full bg-[#16C47F]/70"></span>
                     <span className="ml-3 flex-1 bg-white/[0.03] rounded text-[10px] text-gray-500 h-5 flex items-center px-3 truncate max-w-xs">
-                      {selectedProject.liveUrl !== "#" ? selectedProject.liveUrl.replace("https://", "") : selectedProject.title}
+                      {selectedProject.liveUrl !== "#"
+                        ? selectedProject.liveUrl.replace("https://", "")
+                        : selectedProject.title}
                     </span>
                   </div>
                   {/* Screenshot — full-bleed, cropped to top */}
@@ -496,33 +610,42 @@ export default function Portfolio() {
                     About Project
                   </h4>
                   <p className="text-gray-400 text-sm sm:text-base leading-relaxed font-light">
-                    {selectedProject.longDescription || selectedProject.description}
+                    {selectedProject.longDescription ||
+                      selectedProject.description}
                   </p>
                 </div>
 
-                {selectedProject.features && selectedProject.features.length > 0 && (
-                  <div className="space-y-3">
-                    <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
-                      Key Features
-                    </h4>
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-400">
-                      {selectedProject.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-start gap-2.5 font-light">
-                          <svg
-                            className="w-4 h-4 text-[#16C47F] shrink-0 mt-0.5"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2.5"
-                            viewBox="0 0 24 24"
+                {selectedProject.features &&
+                  selectedProject.features.length > 0 && (
+                    <div className="space-y-3">
+                      <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                        Key Features
+                      </h4>
+                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-400">
+                        {selectedProject.features.map((feature, idx) => (
+                          <li
+                            key={idx}
+                            className="flex items-start gap-2.5 font-light"
                           >
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                          </svg>
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+                            <svg
+                              className="w-4 h-4 text-[#16C47F] shrink-0 mt-0.5"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2.5"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M4.5 12.75l6 6 9-13.5"
+                              />
+                            </svg>
+                            <span>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
               </div>
 
               {/* Action Buttons Footer */}
@@ -541,8 +664,18 @@ export default function Portfolio() {
                     className="px-5 py-2.5 rounded-lg bg-white hover:bg-gray-200 text-black transition-all duration-300 font-bold text-xs tracking-wider uppercase flex items-center gap-2 cursor-pointer active:scale-95"
                   >
                     Visit Website
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                      />
                     </svg>
                   </a>
                 )}

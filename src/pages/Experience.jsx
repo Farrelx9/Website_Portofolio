@@ -8,7 +8,7 @@ export default function Experience() {
       id: 1,
       role: "Event Organizer & Coordinator",
       company: "247 Communication",
-      period: "2024 - Present",
+      period: "2025 - Present",
       type: "Event Organizer",
       accent: "#16C47F", // Vibrant green
       description:
@@ -32,7 +32,7 @@ export default function Experience() {
       id: 2,
       role: "Wedding Organizer & Planner",
       company: "Visesa",
-      period: "2023 - 2024",
+      period: "2023 - Present",
       type: "Wedding Organizer",
       accent: "#FFD65A", // Vibrant yellow
       description:
@@ -67,7 +67,11 @@ export default function Experience() {
 
   const itemVariants = {
     hidden: { opacity: 0, y: 30 },
-    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 15 } },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 100, damping: 15 },
+    },
   };
 
   return (
@@ -139,10 +143,11 @@ export default function Experience() {
           <span className="font-extrabold">coordination.</span>
         </h2>
         <p className="text-gray-400 mt-6 max-w-xl leading-relaxed font-light">
-          A record of my professional work in event planning and coordination. 
-          Managing high-stakes operations, stakeholder communications, and tight timelines 
-          builds a strong foundation in problem-solving and management—skills that directly 
-          translate to building reliable software systems.
+          A record of my professional work in event planning and coordination.
+          Managing high-stakes operations, stakeholder communications, and tight
+          timelines builds a strong foundation in problem-solving and
+          management—skills that directly translate to building reliable
+          software systems.
         </p>
       </header>
 
@@ -164,11 +169,11 @@ export default function Experience() {
               className="relative group"
             >
               {/* Timeline marker */}
-              <div 
+              <div
                 className="absolute -left-[37px] md:-left-[71px] top-1.5 w-4 h-4 rounded-full bg-[#050608] border-2 transition-all duration-300 group-hover:scale-125 flex items-center justify-center"
                 style={{ borderColor: exp.accent }}
               >
-                <div 
+                <div
                   className="w-1.5 h-1.5 rounded-full"
                   style={{ backgroundColor: exp.accent }}
                 ></div>
@@ -192,7 +197,7 @@ export default function Experience() {
                     <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-white transition-colors">
                       {exp.role}
                     </h3>
-                    <p 
+                    <p
                       className="text-sm font-semibold tracking-wide uppercase mt-0.5"
                       style={{ color: exp.accent }}
                     >
@@ -212,7 +217,10 @@ export default function Experience() {
                   </h4>
                   <ul className="space-y-2 text-sm text-gray-400">
                     {exp.points.map((point, idx) => (
-                      <li key={idx} className="flex items-start gap-2.5 font-light">
+                      <li
+                        key={idx}
+                        className="flex items-start gap-2.5 font-light"
+                      >
                         <svg
                           className="w-4 h-4 shrink-0 mt-0.5"
                           fill="none"
@@ -243,11 +251,11 @@ export default function Experience() {
                       <span
                         key={skill}
                         className="text-[9px] px-2.5 py-1 rounded-md font-bold uppercase tracking-wider transition-colors duration-300"
-                        style={{ 
-                          backgroundColor: `${exp.accent}0a`, 
-                          borderColor: `${exp.accent}20`, 
-                          borderWidth: '1px',
-                          color: exp.accent
+                        style={{
+                          backgroundColor: `${exp.accent}0a`,
+                          borderColor: `${exp.accent}20`,
+                          borderWidth: "1px",
+                          color: exp.accent,
                         }}
                       >
                         {skill}
@@ -273,7 +281,7 @@ export default function Experience() {
         <div className="bg-[#0D0F14]/40 border border-white/[0.06] hover:border-white/[0.12] rounded-2xl p-6 sm:p-8 hover:shadow-2xl hover:shadow-white/[0.01] transition-all duration-500 flex flex-col md:flex-row md:items-start justify-between gap-6 relative overflow-hidden group">
           {/* Subtle background glow */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-[#FF9D23]/5 rounded-full blur-3xl pointer-events-none group-hover:bg-[#FF9D23]/10 transition-colors duration-500"></div>
-          
+
           <div className="space-y-4">
             <div>
               <h4 className="text-xl sm:text-2xl font-bold text-white mb-1.5">
@@ -286,10 +294,11 @@ export default function Experience() {
                 Fakultas Ilmu Komputer &middot; Program Studi Sistem Informasi
               </p>
             </div>
-            
+
             <p className="text-gray-400 text-sm leading-relaxed font-light max-w-2xl">
-              Studied the intersection of business strategy, software development, and database systems. 
-              Gained strong foundations in designing structured databases, analyzing system architectures, 
+              Studied the intersection of business strategy, software
+              development, and database systems. Gained strong foundations in
+              designing structured databases, analyzing system architectures,
               and implementing engineering methodologies.
             </p>
 
@@ -306,8 +315,8 @@ export default function Experience() {
                   "Enterprise Architecture",
                   "Project Management",
                 ].map((item) => (
-                  <span 
-                    key={item} 
+                  <span
+                    key={item}
                     className="text-[10px] text-gray-300 bg-white/[0.03] border border-white/[0.06] px-3 py-1 rounded-md"
                   >
                     {item}
@@ -322,7 +331,7 @@ export default function Experience() {
               Surabaya, Indonesia
             </span>
             <span className="text-xs font-mono font-bold text-[#FF9D23] uppercase tracking-widest mt-1">
-              Graduated
+              Graduated 2026
             </span>
           </div>
         </div>

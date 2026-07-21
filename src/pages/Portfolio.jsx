@@ -51,7 +51,30 @@ const staggerContainer = {
     transition: { staggerChildren: 0.08, delayChildren: 0.05 },
   },
 };
+// Animasi baru agar teks di dalam kartu muncul berurutan (staggered)
+const cardContentVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.15 },
+  },
+};
 
+const cardItemVariants = {
+  hidden: { opacity: 0, y: 16 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+// Update slideVariants agar ada efek scale sedikit saat geser (lebih halus)
+const slideVariants = {
+  enter: (dir) => ({ x: dir > 0 ? 100 : -100, opacity: 0, scale: 0.95 }),
+  center: { x: 0, opacity: 1, scale: 1 },
+  exit: (dir) => ({ x: dir > 0 ? -100 : 100, opacity: 0, scale: 0.95 }),
+};
 const staggerItem = {
   hidden: { opacity: 0, y: 18, scale: 0.98 },
   show: {
@@ -68,40 +91,9 @@ export default function Portfolio() {
   const [isMobile, setIsMobile] = React.useState(
     () => typeof window !== "undefined" && window.innerWidth < 768,
   );
-
-  // Keep isMobile in sync with actual viewport changes (resize, rotation)
-  React.useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const closeButtonRef = React.useRef(null);
-  const lastFocusedRef = React.useRef(null);
-  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
-
-  // Modal: close on Escape, lock background scroll, manage focus
-  React.useEffect(() => {
-    if (!selectedProject) return;
-
-    lastFocusedRef.current = document.activeElement;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    closeButtonRef.current?.focus();
-
-    const handleKeyDown = (e) => {
-      if (e.key === "Escape") {
-        setSelectedProject(null);
-      }
-    };
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      document.removeEventListener("keydown", handleKeyDown);
-      lastFocusedRef.current?.focus?.();
-    };
-  }, [selectedProject]);
+  const [currentIndex, setCurrentIndex] = React.useState(0);
+  const [direction, setDirection] = React.useState(1);
+  const [isPaused, setIsPaused] = React.useState(false);
 
   const projects = [
     {
@@ -185,6 +177,63 @@ export default function Portfolio() {
       ],
     },
   ];
+
+  const paginate = (newDirection) => {
+    setDirection(newDirection);
+    setCurrentIndex((prev) => {
+      const next = prev + newDirection;
+      if (next < 0) return projects.length - 1;
+      if (next >= projects.length) return 0;
+      return next;
+    });
+  };
+
+  // Auto-slide, pauses on hover
+  React.useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(() => paginate(1), 4500);
+    return () => clearInterval(timer);
+  }, [isPaused, currentIndex]);
+
+  const slideVariants = {
+    enter: (dir) => ({ x: dir > 0 ? 60 : -60, opacity: 0 }),
+    center: { x: 0, opacity: 1 },
+    exit: (dir) => ({ x: dir > 0 ? -60 : 60, opacity: 0 }),
+  };
+
+  // Keep isMobile in sync with actual viewport changes (resize, rotation)
+  React.useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const closeButtonRef = React.useRef(null);
+  const lastFocusedRef = React.useRef(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+
+  // Modal: close on Escape, lock background scroll, manage focus
+  React.useEffect(() => {
+    if (!selectedProject) return;
+
+    lastFocusedRef.current = document.activeElement;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeButtonRef.current?.focus();
+
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setSelectedProject(null);
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
+      lastFocusedRef.current?.focus?.();
+    };
+  }, [selectedProject]);
 
   const skillCategories = {
     frontend: [
@@ -272,7 +321,9 @@ export default function Portfolio() {
           </li>
           <li className="text-gray-400 hover:text-white cursor-pointer transition-all duration-300 flex items-center gap-1.5 hover:-translate-y-0.5">
             <a
-              href={`https://wa.me/6282135920275?text=${encodeURIComponent("Hi, I'm interested in your portfolio—let's connect.")}`}
+              href={`https://wa.me/6282135920275?text=${encodeURIComponent(
+                "Hi, I'm interested in your portfolio—let's connect.",
+              )}`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5"
@@ -375,7 +426,9 @@ export default function Portfolio() {
               </li>
               <li>
                 <a
-                  href={`https://wa.me/6282135920275?text=${encodeURIComponent("Hi, I'm interested in your portfolio—let's connect.")}`}
+                  href={`https://wa.me/6282135920275?text=${encodeURIComponent(
+                    "Hi, I'm interested in your portfolio—let's connect.",
+                  )}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setMobileMenuOpen(false)}
@@ -392,7 +445,6 @@ export default function Portfolio() {
         )}
       </AnimatePresence>
 
-      {/* Hero Section */}
       <header className="relative w-full overflow-hidden py-28 md:py-36 z-10">
         <div className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row items-center justify-between gap-16">
           {/* Left Content */}
@@ -425,9 +477,16 @@ export default function Portfolio() {
               className="text-5xl md:text-7xl font-light mb-6 tracking-tight text-white leading-none"
             >
               Fresh Graduate Full-Stack Developer <br />
-              <span className="font-extrabold bg-gradient-to-r from-[#16C47F] via-[#FFD65A] to-[#FF9D23] bg-clip-text text-transparent">
+              <motion.span
+                animate={{
+                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                }}
+                transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+                className="font-extrabold bg-gradient-to-r from-[#16C47F] via-[#FFD65A] to-[#FF9D23] bg-clip-text text-transparent"
+                style={{ backgroundSize: "200% auto" }}
+              >
                 {isMobile ? "building for scale." : "Building for Scale."}
-              </span>
+              </motion.span>
             </motion.h2>
 
             <motion.p
@@ -469,7 +528,9 @@ export default function Portfolio() {
               <motion.a
                 whileHover={{ y: -2 }}
                 transition={{ duration: 0.25, ease: "easeOut" }}
-                href={`https://wa.me/6282135920275?text=${encodeURIComponent("Hi, I'm interested in your portfolio—let's connect.")}`}
+                href={`https://wa.me/6282135920275?text=${encodeURIComponent(
+                  "Hi, I'm interested in your portfolio—let's connect.",
+                )}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-7 py-3 bg-transparent border border-white/[0.1] hover:border-[#FFD65A] text-gray-300 hover:text-white rounded-lg font-semibold tracking-wide transition-colors duration-300 cursor-pointer text-sm"
@@ -509,27 +570,57 @@ export default function Portfolio() {
             className="flex-1 flex justify-center items-center"
           >
             <motion.div
-              className="relative group"
-              whileHover={{ y: -4 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              animate={{ y: [0, -12, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
             >
-              {/* Sleek architectural wireframe frame behind photo */}
-              <div className="absolute inset-4 border border-[#16C47F]/40 translate-x-4 translate-y-4 rounded-2xl group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-500"></div>
-              <div className="absolute inset-4 border border-[#FF9D23]/30 -translate-x-4 -translate-y-4 rounded-2xl group-hover:-translate-x-2 group-hover:-translate-y-2 transition-transform duration-500"></div>
+              <motion.div
+                className="relative group"
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <div className="absolute inset-4 border border-[#16C47F]/40 translate-x-4 translate-y-4 rounded-2xl group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-500"></div>
+                <div className="absolute inset-4 border border-[#FF9D23]/30 -translate-x-4 -translate-y-4 rounded-2xl group-hover:-translate-x-2 group-hover:-translate-y-2 transition-transform duration-500"></div>
 
-              {/* Photo Frame */}
-              <div className="relative w-64 aspect-[3/4] md:w-80 bg-[#0D0F14] border border-white/[0.08] rounded-2xl p-2 overflow-hidden flex items-center justify-center shadow-2xl">
-                <img
-                  src={profilePhoto}
-                  alt="Farrel Farhan"
-                  loading="eager"
-                  decoding="async"
-                  className="w-full h-full object-cover object-top rounded-xl filter group-hover:grayscale-0 transition-all duration-700 ease-out scale-[1.02] group-hover:scale-105"
-                />
-              </div>
+                <div className="relative w-64 aspect-[3/4] md:w-80 bg-[#0D0F14] border border-white/[0.08] rounded-2xl p-2 overflow-hidden flex items-center justify-center shadow-2xl">
+                  <img
+                    src={profilePhoto}
+                    alt="Farrel Farhan"
+                    loading="eager"
+                    decoding="async"
+                    className="w-full h-full object-cover object-top rounded-xl filter group-hover:grayscale-0 transition-all duration-700 ease-out scale-[1.02] group-hover:scale-105"
+                  />
+                </div>
+              </motion.div>
             </motion.div>
           </motion.div>
         </div>
+        <motion.a
+          href="#projects"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, y: [0, 8, 0] }}
+          transition={{
+            opacity: { delay: 1, duration: 0.6 },
+            y: { delay: 1, duration: 1.8, repeat: Infinity, ease: "easeInOut" },
+          }}
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-500 hover:text-white transition-colors duration-300 cursor-pointer"
+        >
+          <span className="text-[9px] font-bold uppercase tracking-widest">
+            Scroll
+          </span>
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19 14l-7 7m0 0l-7-7m7 7V3"
+            />
+          </svg>
+        </motion.a>
       </header>
 
       {/* Tech Stack Section */}
@@ -656,12 +747,12 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Projects Section */}
+      {/* Projects Section — Carousel */}
       <section
         id="projects"
         className="py-28 px-8 max-w-7xl mx-auto border-t border-white/[0.04] relative z-10"
       >
-        <Reveal className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-4">
+        <Reveal className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 w-full">
             <div>
               <span className="text-xs text-[#16C47F] font-bold tracking-widest uppercase block mb-2">
@@ -678,114 +769,225 @@ export default function Portfolio() {
           </div>
         </Reveal>
 
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        <div
+          className="relative"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
         >
-          {projects.map((project) => {
-            const hasWebsite = project.liveUrl !== "#";
+          {/* Slide track */}
+          <div className="relative overflow-hidden rounded-2xl min-h-[560px] sm:min-h-[520px]">
+            <AnimatePresence initial={false} custom={direction} mode="wait">
+              {(() => {
+                const project = projects[currentIndex];
+                const hasWebsite = project.liveUrl && project.liveUrl !== "#";
+                const currentImage = project.images
+                  ? project.images[0]
+                  : project.image;
 
-            return (
-              <motion.div
-                key={project.id}
-                variants={staggerItem}
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                role="button"
-                tabIndex={0}
-                aria-label={`Open details for ${project.title}`}
-                onClick={() => {
-                  setSelectedProject(project);
-                  setActiveImageIndex(0);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    setSelectedProject(project);
-                    setActiveImageIndex(0);
-                  }
-                }}
-                className="bg-[#0D0F14]/40 border border-white/[0.06] hover:border-white/[0.15] rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-white/[0.02] transition-[border-color,box-shadow] duration-500 flex flex-col justify-between group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#16C47F] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050608]"
-              >
-                <div>
-                  {project.images || project.image ? (
-                    <div className="h-52 overflow-hidden relative bg-[#090A0E] border-b border-white/[0.04]">
-                      {/* Browser header detail */}
-                      <div className="absolute top-0 left-0 right-0 h-8 bg-[#0D0F14]/95 backdrop-blur-md flex items-center px-4 gap-2 z-10 border-b border-white/[0.03]">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#F93827]/70"></span>
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#FFD65A]/70"></span>
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#16C47F]/70"></span>
-                        <span className="ml-2 flex-1 bg-white/[0.03] rounded-sm h-4 text-[9px] text-gray-500 tracking-wider flex items-center px-3 truncate">
-                          {project.liveUrl !== "#"
+                return (
+                  <motion.div
+                    key={project.id}
+                    custom={direction}
+                    variants={slideVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.2}
+                    onDragEnd={(e, info) => {
+                      if (info.offset.x < -80) paginate(1);
+                      else if (info.offset.x > 80) paginate(-1);
+                    }}
+                    onClick={() => {
+                      setSelectedProject(project);
+                      setActiveImageIndex(0);
+                    }}
+                    className="bg-[#0D0F14]/60 backdrop-blur-sm border border-white/[0.08] hover:border-white/[0.15] rounded-2xl overflow-hidden shadow-2xl shadow-black/20 flex flex-col md:flex-row cursor-pointer group"
+                  >
+                    {/* --- SISI GAMBAR (DIPERBAIKI RESPONSIFNYA) --- */}
+                    {/* aspect-[4/3] di mobile agar tidak gepeng, md:h-auto di desktop agar proporsional */}
+                    <div className="w-full md:w-1/2 aspect-[4/3] md:aspect-auto md:h-auto relative overflow-hidden bg-[#090A0E] border-b md:border-b-0 md:border-r border-white/[0.06] shrink-0">
+                      {/* Browser Chrome (Dikecilkan sedikit di mobile agar rapi) */}
+                      <div className="absolute top-0 left-0 right-0 h-7 md:h-8 bg-[#0D0F14]/90 backdrop-blur-md flex items-center px-3 md:px-4 gap-2 z-10 border-b border-white/[0.03]">
+                        <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-[#F93827]/80"></span>
+                        <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-[#FFD65A]/80"></span>
+                        <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-[#16C47F]/80"></span>
+                        <span className="ml-2 flex-1 bg-white/[0.03] rounded-sm h-4 md:h-5 text-[8px] md:text-[9px] text-gray-500 tracking-wider flex items-center px-2 md:px-3 truncate">
+                          {hasWebsite
                             ? project.liveUrl.replace("https://", "")
                             : project.title}
                         </span>
                       </div>
+
+                      {/* Gambar dengan object-cover optimal */}
                       <img
-                        src={project.images ? project.images[0] : project.image}
+                        src={currentImage}
                         alt={project.title}
+                        draggable={false}
                         loading="lazy"
                         decoding="async"
-                        className="w-full h-full object-cover object-top transform transition-transform duration-700 ease-out group-hover:scale-[1.08]"
-                        style={{ paddingTop: "32px" }}
+                        className="w-full h-full object-cover object-top transform transition-transform duration-700 ease-out group-hover:scale-105"
+                        style={{ paddingTop: "28px" }}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0D0F14]/80 via-transparent to-transparent opacity-60 pointer-events-none"></div>
-                    </div>
-                  ) : (
-                    <div className="h-52 bg-gray-800 flex items-center justify-center text-gray-500 font-semibold">
-                      Image Placeholder
-                    </div>
-                  )}
-                  <div className="p-7">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-[10px] text-gray-500 font-mono tracking-widest font-bold">
-                        PROJ / {project.num}
-                      </span>
-                      <div className="flex gap-1.5">
-                        {project.technologies.slice(0, 2).map((tech) => (
-                          <span
-                            key={tech}
-                            className="text-[9px] text-[#FF9D23] bg-[#FF9D23]/5 px-2 py-0.5 rounded-md border border-[#FF9D23]/10 font-bold uppercase tracking-wider"
-                          >
-                            {tech}
-                          </span>
-                        ))}
+
+                      {/* Gradient overlay agar transisi ke teks lebih halus */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0D0F14] via-transparent to-transparent opacity-60 md:opacity-40 pointer-events-none"></div>
+
+                      {/* Hint "Klik untuk detail" saat hover */}
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                        <span className="bg-black/60 backdrop-blur-md text-white text-xs font-bold px-4 py-2 rounded-full border border-white/10">
+                          Click to explore
+                        </span>
                       </div>
                     </div>
-                    <h4 className="text-xl font-bold mb-2.5 text-white group-hover:text-[#FFD65A] transition-colors duration-300">
-                      {project.title}
-                    </h4>
-                    <p className="text-gray-400 text-sm leading-relaxed font-light">
-                      {project.description}
-                    </p>
-                  </div>
-                </div>
-                <div className="p-7 pt-0 flex justify-between items-center border-t border-white/[0.03] mt-auto">
-                  <span className="text-[#16C47F] group-hover:text-white font-bold text-xs tracking-wider flex items-center gap-1.5 transition-colors">
-                    EXPLORE PROJECT{" "}
-                    <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
-                      &rarr;
-                    </span>
-                  </span>
-                  {hasWebsite && (
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="text-gray-400 hover:text-white transition-colors text-xs font-semibold px-3 py-1 bg-white/[0.03] hover:bg-white/[0.08] rounded-md border border-white/[0.06]"
-                    >
-                      Visit Site
-                    </a>
-                  )}
-                </div>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+
+                    {/* --- SISI TEKS --- */}
+                    <div className="w-full md:w-1/2 p-6 sm:p-8 md:p-10 flex flex-col justify-between">
+                      <motion.div
+                        variants={cardContentVariants}
+                        initial="hidden"
+                        animate="show"
+                      >
+                        <motion.div
+                          variants={cardItemVariants}
+                          className="flex items-center justify-between mb-4"
+                        >
+                          <span className="text-[10px] text-gray-500 font-mono tracking-widest font-bold">
+                            PROJ / {project.num}
+                          </span>
+                          <div className="flex gap-1.5 flex-wrap justify-end">
+                            {project.technologies.slice(0, 3).map((tech) => (
+                              <span
+                                key={tech}
+                                className="text-[9px] md:text-[10px] text-[#FF9D23] bg-[#FF9D23]/5 px-2 py-1 rounded-md border border-[#FF9D23]/10 font-bold uppercase tracking-wider"
+                              >
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+                        </motion.div>
+
+                        <motion.h4
+                          variants={cardItemVariants}
+                          className="text-2xl sm:text-3xl font-bold mb-3 text-white group-hover:text-[#FFD65A] transition-colors duration-300 leading-tight"
+                        >
+                          {project.title}
+                        </motion.h4>
+
+                        <motion.p
+                          variants={cardItemVariants}
+                          className="text-gray-400 text-sm md:text-base leading-relaxed font-light line-clamp-4 md:line-clamp-none"
+                        >
+                          {project.description}
+                        </motion.p>
+                      </motion.div>
+
+                      <motion.div
+                        variants={cardItemVariants}
+                        className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-t border-white/[0.06] pt-6 mt-6 md:mt-8 gap-4"
+                      >
+                        <span className="text-[#16C47F] group-hover:text-white font-bold text-xs tracking-wider flex items-center gap-1.5 transition-colors">
+                          EXPLORE PROJECT{" "}
+                          <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
+                            &rarr;
+                          </span>
+                        </span>
+
+                        {hasWebsite && (
+                          <a
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) =>
+                              e.stopPropagation()
+                            } /* PENTING: Mencegah modal terbuka saat klik link ini */
+                            className="text-gray-300 hover:text-white transition-colors text-xs font-semibold px-4 py-2 bg-white/[0.03] hover:bg-white/[0.08] rounded-lg border border-white/[0.08] hover:border-[#16C47F]/30 flex items-center gap-2"
+                          >
+                            <span>Visit Site</span>
+                            <svg
+                              className="w-3 h-3"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                              />
+                            </svg>
+                          </a>
+                        )}
+                      </motion.div>
+                    </div>
+                  </motion.div>
+                );
+              })()}
+            </AnimatePresence>
+          </div>
+
+          {/* Prev / Next arrows */}
+          <button
+            onClick={() => paginate(-1)}
+            aria-label="Previous project"
+            className="absolute left-2 md:-left-5 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-[#0D0F14]/90 border border-white/[0.08] text-gray-400 hover:text-white hover:border-[#16C47F]/40 hover:bg-[#16C47F]/10 backdrop-blur-md transition-all duration-300 cursor-pointer shadow-lg"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+          <button
+            onClick={() => paginate(1)}
+            aria-label="Next project"
+            className="absolute right-2 md:-right-5 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-[#0D0F14]/90 border border-white/[0.08] text-gray-400 hover:text-white hover:border-[#16C47F]/40 hover:bg-[#16C47F]/10 backdrop-blur-md transition-all duration-300 cursor-pointer shadow-lg"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+
+          {/* Dot indicators */}
+          <div className="flex justify-center gap-2 mt-8">
+            {projects.map((p, idx) => (
+              <button
+                key={p.id}
+                onClick={() => {
+                  setDirection(idx > currentIndex ? 1 : -1);
+                  setCurrentIndex(idx);
+                }}
+                aria-label={`Go to project ${idx + 1}`}
+                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                  idx === currentIndex
+                    ? "w-8 bg-[#16C47F]"
+                    : "w-1.5 bg-white/20 hover:bg-white/40"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Credentials & Experience CTA Section */}
@@ -823,7 +1025,7 @@ export default function Portfolio() {
             >
               View Certificates
               <svg
-                className="w-3.5 h-3.5"
+                className="w-3.5 h-3.5 text-[#FF9D23] "
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2.5"
@@ -860,7 +1062,7 @@ export default function Portfolio() {
             </div>
             <Link
               to="/experience"
-              className="px-6 py-2.5 bg-transparent border border-white/[0.1] hover:border-[#16C47F] text-gray-300 hover:text-white rounded-lg font-bold tracking-wide transition-all duration-300 hover:-translate-y-0.5 cursor-pointer text-xs inline-flex items-center gap-2"
+              className="px-6 py-2.5 bg-white hover:bg-gray-200 rounded-lg font-bold tracking-wide transition-all duration-300 hover:-translate-y-0.5 cursor-pointer text-xs inline-flex items-center gap-2"
             >
               View Experience
               <svg
@@ -1051,7 +1253,10 @@ export default function Portfolio() {
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.35, ease: "easeOut" }}
                       src={selectedProject.images[activeImageIndex]}
-                      alt={`${selectedProject.title} – ${selectedProject.imageLabels?.[activeImageIndex] ?? `view ${activeImageIndex + 1}`}`}
+                      alt={`${selectedProject.title} – ${
+                        selectedProject.imageLabels?.[activeImageIndex] ??
+                        `view ${activeImageIndex + 1}`
+                      }`}
                       className="w-full h-full object-cover object-top"
                     />
                     <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#0D0F14] to-transparent pointer-events-none" />

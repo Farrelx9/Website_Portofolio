@@ -4,6 +4,7 @@ import Portfolio from "./pages/Portfolio";
 import Certificates from "./pages/Certificate";
 import Experience from "./pages/Experience";
 import LoadingScreen from "./components/LoadingScreen";
+import ScrollToTop from "./ScrollToTop";
 
 // ==========================================
 // CONFIGURATION: SET SIMULATED LOADING DURATION
@@ -42,6 +43,7 @@ export default function App() {
       />
 
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Portfolio />} />
           <Route path="/certificates" element={<Certificates />} />

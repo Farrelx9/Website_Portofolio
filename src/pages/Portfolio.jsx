@@ -71,9 +71,23 @@ const cardItemVariants = {
 
 // Update slideVariants agar ada efek scale sedikit saat geser (lebih halus)
 const slideVariants = {
-  enter: (dir) => ({ x: dir > 0 ? 100 : -100, opacity: 0, scale: 0.95 }),
-  center: { x: 0, opacity: 1, scale: 1 },
-  exit: (dir) => ({ x: dir > 0 ? -100 : 100, opacity: 0, scale: 0.95 }),
+  enter: (dir) => ({
+    x: dir > 0 ? 80 : -80,
+    opacity: 0,
+    scale: 0.97,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+  },
+  exit: (dir) => ({
+    x: dir > 0 ? -80 : 80,
+    opacity: 0,
+    scale: 0.97,
+    transition: { duration: 0.35, ease: [0.4, 0, 1, 1] },
+  }),
 };
 const staggerItem = {
   hidden: { opacity: 0, y: 18, scale: 0.98 },
@@ -105,6 +119,7 @@ export default function Portfolio() {
       longDescription:
         "Klinik drg. Irna Kurnia is a clinic management application featuring three core business processes: appointment scheduling, online chat consultation, and digital medical record keeping. The patient-facing side handles service information and online bookings, while the secure admin panel enables administrative staff to manage patient data, coordinate dental consultation schedules, track payment summaries, and maintain up-to-date patient medical histories.",
       images: [klinikDrGirnaPatient, klinikDrGirnaAdmin],
+      imageFit: "contain",
       imageLabels: ["Patient Side", "Admin Dashboard"],
       liveUrl: "https://klinikdrgirna.my.id",
       technologies: [
@@ -133,6 +148,7 @@ export default function Portfolio() {
       longDescription:
         "Binar Car Rental is a frontend practice project focused on static UI prototyping and pixel-perfect slicing. Built for the Binar Academy challenge, it demonstrates the ability to translate design mockups into clean, responsive web pages using React.js and Tailwind CSS. The project highlights foundational skills in component-based architecture, semantic HTML, and modern CSS styling without complex state management or backend integration.",
       image: binarCarRental,
+      imageFit: "contain",
       liveUrl: "https://challenges-1.vercel.app/",
       technologies: [
         "React",
@@ -157,6 +173,7 @@ export default function Portfolio() {
       longDescription:
         "ICLIX is a movie browsing and streaming web application built as a hands-on learning project focused on real-world API integration. It fetches live movie data from The Movie Database (TMDB) API using query parameters for search and filtering. The project also implements OAuth-based login flow and demonstrates key concepts like async data fetching, dynamic routing, and responsive UI design with a dark Netflix-inspired theme.",
       image: iclixProject,
+      imageFit: "contain",
       liveUrl: "https://iclix.vercel.app/",
       technologies: [
         "React",
@@ -775,8 +792,12 @@ export default function Portfolio() {
           onMouseLeave={() => setIsPaused(false)}
         >
           {/* Slide track */}
-          <div className="relative overflow-hidden rounded-2xl min-h-[560px] sm:min-h-[520px]">
-            <AnimatePresence initial={false} custom={direction} mode="wait">
+          <div className="relative overflow-hidden rounded-2xl">
+            <AnimatePresence
+              initial={false}
+              custom={direction}
+              mode="popLayout"
+            >
               {(() => {
                 const project = projects[currentIndex];
                 const hasWebsite = project.liveUrl && project.liveUrl !== "#";
@@ -787,6 +808,7 @@ export default function Portfolio() {
                 return (
                   <motion.div
                     key={project.id}
+                    layout
                     custom={direction}
                     variants={slideVariants}
                     initial="enter"
@@ -828,10 +850,13 @@ export default function Portfolio() {
                         draggable={false}
                         loading="lazy"
                         decoding="async"
-                        className="w-full h-full object-cover object-top transform transition-transform duration-700 ease-out group-hover:scale-105"
+                        className={`w-full h-full transform transition-transform duration-700 ease-out group-hover:scale-105 ${
+                          project.imageFit === "contain"
+                            ? "object-contain p-6 bg-[#0D0F14]"
+                            : "object-cover object-top"
+                        }`}
                         style={{ paddingTop: "28px" }}
                       />
-
                       {/* Gradient overlay agar transisi ke teks lebih halus */}
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0D0F14] via-transparent to-transparent opacity-60 md:opacity-40 pointer-events-none"></div>
 
@@ -1246,7 +1271,8 @@ export default function Portfolio() {
                     </span>
                   </div>
                   {/* Screenshot — full-bleed, cropped to top */}
-                  <div className="h-64 sm:h-72 overflow-hidden relative">
+                  {/* Screenshot — tampil penuh tanpa terpotong */}
+                  <div className="h-56 sm:h-72 md:h-80 overflow-hidden relative bg-[#050608]">
                     <motion.img
                       key={activeImageIndex}
                       initial={{ opacity: 0, scale: 1.03 }}
@@ -1257,7 +1283,7 @@ export default function Portfolio() {
                         selectedProject.imageLabels?.[activeImageIndex] ??
                         `view ${activeImageIndex + 1}`
                       }`}
-                      className="w-full h-full object-cover object-top"
+                      className="w-full h-full object-contain object-top p-3 sm:p-4"
                     />
                     <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#0D0F14] to-transparent pointer-events-none" />
                   </div>
@@ -1295,14 +1321,14 @@ export default function Portfolio() {
                     </span>
                   </div>
                   {/* Screenshot — full-bleed, cropped to top */}
-                  <div className="h-64 sm:h-72 overflow-hidden relative">
+                  <div className="h-56 sm:h-72 md:h-80 overflow-hidden relative bg-[#050608]">
                     <motion.img
                       initial={{ opacity: 0, scale: 1.03 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.4, ease: "easeOut" }}
                       src={selectedProject.image}
                       alt={selectedProject.title}
-                      className="w-full h-full object-cover object-top"
+                      className="w-full h-full object-contain object-top p-3 sm:p-4"
                     />
                     <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#0D0F14] to-transparent pointer-events-none" />
                   </div>

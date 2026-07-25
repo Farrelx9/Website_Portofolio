@@ -20,7 +20,7 @@ import {
   SiMysql,
   SiGit,
 } from "react-icons/si";
-import { Globe } from "lucide-react";
+import { Globe, Cloud } from "lucide-react";
 
 /* ---------- Reusable motion helpers ---------- */
 
@@ -250,6 +250,7 @@ export default function Portfolio() {
       { name: "Prisma ORM", icon: SiPrisma, color: "#FFFFFF" },
     ],
     infra: [
+      { name: "AWS Cloud", icon: Cloud, color: "#FF9900" },
       { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1" },
       { name: "MySQL", icon: SiMysql, color: "#4479A1" },
       { name: "Git & GitHub", icon: SiGit, color: "#F05032" },

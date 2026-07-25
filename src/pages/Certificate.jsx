@@ -4,33 +4,97 @@ import { motion, AnimatePresence } from "framer-motion";
 import certificateBinar from "../assets/Studi Independen_Cycle6_Cert_Farrel Farhan-1.png";
 import certificateLsp from "../assets/Sertif LSP-1.png";
 import certificateEpt from "../assets/EPT-1.png";
+import certificateAws from "../assets/sertifikat aws.png";
+import nilaiAws from "../assets/nilai aws.png";
+import certificateCdp from "../assets/cdp_cert_farrel_farhan.png";
+
+import binarReport1 from "../assets/Final Report Scale 1-100 FEJS Farrel Farhan-1.png";
+import binarReport2 from "../assets/Final Report Scale 1-100 FEJS Farrel Farhan-2.png";
+import binarReport3 from "../assets/Final Report Scale 1-100 FEJS Farrel Farhan-3.png";
+import binarReport4 from "../assets/Final Report Scale 1-100 FEJS Farrel Farhan-4.png";
+import binarReport5 from "../assets/Final Report Scale 1-100 FEJS Farrel Farhan-5.png";
+import binarReport6 from "../assets/Final Report Scale 1-100 FEJS Farrel Farhan-6.png";
 
 export default function Certificates() {
   const [selectedCertificate, setSelectedCertificate] = React.useState(null);
+  const [activeTab, setActiveTab] = React.useState("certificate"); // 'certificate' | 'transcript' | 'report'
+  const [reportPage, setReportPage] = React.useState(0);
   const [lightboxOpen, setLightboxOpen] = React.useState(false);
 
   const certificates = [
     {
       id: 1,
       num: "01",
-      title: "Front End Javascript Wave 6",
-      issuer: "Binar Academy",
-      date: "2024",
-      image: certificateBinar,
+      title: "AWS Cloud Solution Architect",
+      issuer: "TIMCorp-Academy & Kampus Merdeka (AWS Partner)",
+      date: "2023",
+      image: certificateAws,
+      scoreImage: nilaiAws,
+      score: "86 / 100",
       pdfUrl: "#",
       description:
-        "Certificate of completion for the Front End Javascript program under the Studi Independen Bersertifikat (Kampus Merdeka) initiative at Binar Academy, validating hands-on skills in building responsive, interactive user interfaces and working with modern Javascript ecosystems.",
+        "Certificate of completion and academic transcript for the AWS Cloud Solution Architect program under Magang dan Studi Independen Bersertifikat (MSIB Cycle 5) at TIMCorp-Academy (AWS Training Partner). Achieved a Weighted Score of 86 across 20 credits, specializing in AWS Cloud Foundations, Solution Architecture, and LMS deployment.",
       skills: [
-        "React.js",
-        "JavaScript",
-        "Tailwind CSS",
-        "HTML & CSS",
-        "Responsive Design",
+        "AWS Cloud",
+        "Cloud Architecture",
+        "Solution Architect",
+        "Cloud Practitioner",
+        "LMS Deployment",
       ],
+      scoresList: [
+        { subject: "Capstone Project", score: 100, credits: 4 },
+        { subject: "Solution Architect - 1", score: 90, credits: 4 },
+        { subject: "Foundations", score: 90, credits: 2 },
+        { subject: "Soft Skills", score: 90, credits: 2 },
+        { subject: "Cloud Practitioner Essentials", score: 80, credits: 4 },
+        { subject: "Solution Architect - 2", score: 70, credits: 4 },
+      ],
+      weightedScore: "86",
+      totalCredits: "20",
     },
     {
       id: 2,
       num: "02",
+      title: "Front End Javascript Wave 6",
+      issuer: "Binar Academy & Kampus Merdeka",
+      date: "2024",
+      image: certificateBinar,
+      reportImages: [
+        binarReport1,
+        binarReport2,
+        binarReport3,
+        binarReport4,
+        binarReport5,
+        binarReport6,
+      ],
+      score: "92.93 / 100",
+      weightedScore: "92.93",
+      softSkillScore: "89.33",
+      pdfUrl: "#",
+      description:
+        "Certificate of completion and 6-page comprehensive Final Report for the Front End Javascript program under Kampus Merdeka (Studi Independen Cycle 6) at Binar Academy. Achieved an Average Technical Score of 92.93/100 across 10 chapters and a Soft Skill Score of 89.33/100.",
+      skills: [
+        "React.js",
+        "JavaScript",
+        "Redux State Management",
+        "Tailwind CSS",
+        "REST API & Auth",
+        "Vercel Deployment & CI/CD",
+      ],
+      scoresList: [
+        { subject: "Chapter 1: Dasar Front-end (HTML & CSS)", score: 91, credits: 1 },
+        { subject: "Chapter 2: Dasar Pemrograman Javascript", score: 99, credits: 1 },
+        { subject: "Chapter 3: Web Dinamis ReactJS (Part 1)", score: 95.4, credits: 1 },
+        { subject: "Chapter 4: Web Dinamis ReactJS (Part 2)", score: 92, credits: 1 },
+        { subject: "Chapter 5: System Authentication Backend", score: 86, credits: 1 },
+        { subject: "Chapter 6: Redux State Management", score: 95, credits: 1 },
+        { subject: "Chapter 7: Deployment & CI/CD", score: 100, credits: 1 },
+        { subject: "Chapter 8-10: Final Project Slicing & API", score: 85, credits: 3 },
+      ],
+    },
+    {
+      id: 3,
+      num: "03",
       title: "Junior Web Programmer",
       issuer: "LSP UPN \"Veteran\" Jawa Timur (BNSP)",
       date: "2025",
@@ -47,11 +111,29 @@ export default function Certificates() {
       ],
     },
     {
-      id: 3,
-      num: "03",
+      id: 4,
+      num: "04",
+      title: "CDP Workshop: Zero to Hero in Singapore Digital Realm",
+      issuer: "Binar Academy",
+      date: "2024",
+      image: certificateCdp,
+      pdfUrl: "#",
+      description:
+        "Certificate of completion for the Career Development Program (CDP) Workshop titled \"From Zero to Hero in Singapore Digital Realm\" hosted by Binar Academy, validating career strategies, tech industry trends, and global digital ecosystem readiness.",
+      skills: [
+        "Career Development",
+        "Tech Industry Insights",
+        "Global Career Strategy",
+        "Professional Growth",
+      ],
+    },
+    {
+      id: 5,
+      num: "05",
       title: "English Proficiency Test (EPT)",
       issuer: "Language Center UPN \"Veteran\" Jawa Timur",
       date: "2025",
+      score: "450",
       image: certificateEpt,
       pdfUrl: "#",
       description:
@@ -64,6 +146,17 @@ export default function Certificates() {
       ],
     },
   ];
+
+  const getCurrentImageSource = (cert) => {
+    if (!cert) return null;
+    if (activeTab === "transcript" && cert.scoreImage) {
+      return cert.scoreImage;
+    }
+    if (activeTab === "report" && cert.reportImages && cert.reportImages.length > 0) {
+      return cert.reportImages[reportPage] || cert.reportImages[0];
+    }
+    return cert.image;
+  };
 
   return (
     <div className="min-h-screen bg-[#050608] text-gray-250 font-sans relative antialiased selection:bg-[#16C47F]/20 selection:text-white bg-[radial-gradient(rgba(255,255,255,0.015)_1px,transparent_1px)] [background-size:32px_32px]">
@@ -130,12 +223,12 @@ export default function Certificates() {
           [ 03 / CREDENTIALS ]
         </span>
         <h2 className="text-4xl md:text-6xl font-light text-white tracking-tight max-w-3xl">
-          Certifications that back up{" "}
+          Certifications & workshops that back up{" "}
           <span className="font-extrabold">the work.</span>
         </h2>
         <p className="text-gray-400 mt-6 max-w-xl leading-relaxed font-light">
-          Formal training and assessments completed alongside the projects in my
-          portfolio — covering frontend development through to national web programming standards.
+          Formal training programs, cloud architecture credentials, workshops, and professional assessments completed alongside the projects in my
+          portfolio.
         </p>
       </header>
 
@@ -145,7 +238,11 @@ export default function Certificates() {
           {certificates.map((cert) => (
             <div
               key={cert.id}
-              onClick={() => setSelectedCertificate(cert)}
+              onClick={() => {
+                setSelectedCertificate(cert);
+                setActiveTab("certificate");
+                setReportPage(0);
+              }}
               className="bg-[#0D0F14]/40 border border-white/[0.06] hover:border-white/[0.15] rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-white/[0.02] hover:-translate-y-1.5 transition-all duration-500 flex flex-col group cursor-pointer"
             >
               <div className="h-56 overflow-hidden relative bg-white flex items-center justify-center p-4 border-b border-white/[0.04]">
@@ -154,15 +251,58 @@ export default function Certificates() {
                   alt={cert.title}
                   className="w-full h-full object-contain transform transition-all duration-700 ease-out group-hover:scale-105"
                 />
+                {cert.reportImages && (
+                  <span className="absolute bottom-3 right-3 bg-black/85 backdrop-blur-md text-[#16C47F] border border-[#16C47F]/30 text-[10px] font-bold px-2.5 py-1 rounded-md shadow-lg flex items-center gap-1.5">
+                    <svg
+                      className="w-3 h-3"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                      />
+                    </svg>
+                    Includes 6-Page Final Report
+                  </span>
+                )}
+                {cert.scoreImage && (
+                  <span className="absolute bottom-3 right-3 bg-black/85 backdrop-blur-md text-[#FFD65A] border border-[#FFD65A]/30 text-[10px] font-bold px-2.5 py-1 rounded-md shadow-lg flex items-center gap-1.5">
+                    <svg
+                      className="w-3 h-3"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                      />
+                    </svg>
+                    Includes Transcript
+                  </span>
+                )}
               </div>
               <div className="p-7 flex flex-col flex-1">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-[10px] text-gray-500 font-mono tracking-widest font-bold">
                     CERT / {cert.num}
                   </span>
-                  <span className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">
-                    {cert.date}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    {cert.score && (
+                      <span className="text-[10px] text-[#FFD65A] bg-[#FFD65A]/10 px-2 py-0.5 rounded-md border border-[#FFD65A]/20 font-bold tracking-wider font-mono">
+                        Score: {cert.score}
+                      </span>
+                    )}
+                    <span className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">
+                      {cert.date}
+                    </span>
+                  </div>
                 </div>
                 <h4 className="text-xl font-bold mb-1.5 text-white group-hover:text-[#FFD65A] transition-colors duration-300">
                   {cert.title}
@@ -174,7 +314,7 @@ export default function Certificates() {
                   {cert.description}
                 </p>
                 <div className="flex flex-wrap gap-1.5 mt-auto pt-5 border-t border-white/[0.03]">
-                  {cert.skills.slice(0, 4).map((skill) => (
+                  {cert.skills.slice(0, 5).map((skill) => (
                     <span
                       key={skill}
                       className="text-[9px] text-[#FF9D23] bg-[#FF9D23]/5 px-2 py-0.5 rounded-md border border-[#FF9D23]/10 font-bold uppercase tracking-wider"
@@ -225,7 +365,7 @@ export default function Certificates() {
             >
               <button
                 onClick={() => setSelectedCertificate(null)}
-                className="absolute top-4 right-4 z-25 p-1.5 rounded-full bg-white/[0.02] hover:bg-white/[0.08] text-gray-400 hover:text-white border border-white/[0.06] transition duration-300 backdrop-blur-md cursor-pointer"
+                className="absolute top-4 right-4 z-25 p-1.5 rounded-full bg-black/60 hover:bg-black/80 text-gray-300 hover:text-white border border-white/[0.1] transition duration-300 backdrop-blur-md cursor-pointer"
                 aria-label="Close modal"
               >
                 <svg
@@ -243,33 +383,130 @@ export default function Certificates() {
                 </svg>
               </button>
 
-              {/* Certificate image — shown in full (object-contain), click to zoom */}
-              <div
-                onClick={() => setLightboxOpen(true)}
-                className="relative h-72 sm:h-80 overflow-hidden bg-white flex items-center justify-center p-4 border-b border-white/[0.04] cursor-zoom-in group/zoom"
-              >
-                <img
-                  src={selectedCertificate.image}
-                  alt={selectedCertificate.title}
-                  className="w-full h-full object-contain"
-                />
-                <div className="absolute inset-0 bg-black/0 group-hover/zoom:bg-black/10 transition-colors duration-300 flex items-end justify-end p-3">
-                  <span className="opacity-0 group-hover/zoom:opacity-100 transition-opacity duration-300 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-black bg-white/90 px-3 py-1.5 rounded-md shadow-lg">
-                    <svg
-                      className="w-3.5 h-3.5"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      viewBox="0 0 24 24"
+              {/* Certificate image container */}
+              <div className="relative h-72 sm:h-80 overflow-hidden bg-white flex items-center justify-center p-4 border-b border-white/[0.04]">
+                {/* Tab Switcher if scoreImage exists */}
+                {selectedCertificate.scoreImage && (
+                  <div className="absolute top-4 left-4 z-20 flex gap-1.5 bg-[#050608]/85 backdrop-blur-md p-1 rounded-lg border border-white/[0.1]">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveTab("certificate");
+                      }}
+                      className={`px-3 py-1 rounded-md text-xs font-bold transition-all duration-300 cursor-pointer ${
+                        activeTab === "certificate"
+                          ? "bg-[#16C47F] text-black shadow-md"
+                          : "text-gray-300 hover:text-white"
+                      }`}
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16zM11 8v6M8 11h6"
-                      />
-                    </svg>
-                    View Full Size
-                  </span>
+                      Certificate
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveTab("transcript");
+                      }}
+                      className={`px-3 py-1 rounded-md text-xs font-bold transition-all duration-300 cursor-pointer ${
+                        activeTab === "transcript"
+                          ? "bg-[#FFD65A] text-black shadow-md"
+                          : "text-gray-300 hover:text-white"
+                      }`}
+                    >
+                      Transcript / Nilai
+                    </button>
+                  </div>
+                )}
+
+                {/* Tab Switcher if reportImages exists */}
+                {selectedCertificate.reportImages && (
+                  <div className="absolute top-4 left-4 z-20 flex gap-1.5 bg-[#050608]/85 backdrop-blur-md p-1 rounded-lg border border-white/[0.1]">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveTab("certificate");
+                      }}
+                      className={`px-3 py-1 rounded-md text-xs font-bold transition-all duration-300 cursor-pointer ${
+                        activeTab === "certificate"
+                          ? "bg-[#16C47F] text-black shadow-md"
+                          : "text-gray-300 hover:text-white"
+                      }`}
+                    >
+                      Certificate
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveTab("report");
+                      }}
+                      className={`px-3 py-1 rounded-md text-xs font-bold transition-all duration-300 cursor-pointer ${
+                        activeTab === "report"
+                          ? "bg-[#16C47F] text-black shadow-md"
+                          : "text-gray-300 hover:text-white"
+                      }`}
+                    >
+                      Final Report (6 Pages)
+                    </button>
+                  </div>
+                )}
+
+                {/* Page Navigation Controls when viewing Report */}
+                {activeTab === "report" && selectedCertificate.reportImages && (
+                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 bg-[#050608]/90 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/[0.12] shadow-xl">
+                    <button
+                      disabled={reportPage === 0}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setReportPage((prev) => Math.max(0, prev - 1));
+                      }}
+                      className="text-xs text-gray-300 hover:text-white disabled:opacity-30 disabled:hover:text-gray-300 px-1 font-bold cursor-pointer"
+                    >
+                      &larr; Prev
+                    </button>
+                    <span className="text-[10px] font-mono text-gray-300 font-bold px-1">
+                      Page {reportPage + 1} / {selectedCertificate.reportImages.length}
+                    </span>
+                    <button
+                      disabled={reportPage === selectedCertificate.reportImages.length - 1}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setReportPage((prev) =>
+                          Math.min(selectedCertificate.reportImages.length - 1, prev + 1)
+                        );
+                      }}
+                      className="text-xs text-gray-300 hover:text-white disabled:opacity-30 disabled:hover:text-gray-300 px-1 font-bold cursor-pointer"
+                    >
+                      Next &rarr;
+                    </button>
+                  </div>
+                )}
+
+                <div
+                  onClick={() => setLightboxOpen(true)}
+                  className="w-full h-full flex items-center justify-center cursor-zoom-in group/zoom relative"
+                >
+                  <img
+                    src={getCurrentImageSource(selectedCertificate)}
+                    alt={selectedCertificate.title}
+                    className="w-full h-full object-contain"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover/zoom:bg-black/10 transition-colors duration-300 flex items-end justify-end p-3 pointer-events-none">
+                    <span className="opacity-0 group-hover/zoom:opacity-100 transition-opacity duration-300 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-black bg-white/90 px-3 py-1.5 rounded-md shadow-lg">
+                      <svg
+                        className="w-3.5 h-3.5"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16zM11 8v6M8 11h6"
+                        />
+                      </svg>
+                      View Full Size ({activeTab === "report" ? `Page ${reportPage + 1}` : activeTab === "transcript" ? "Transcript" : "Certificate"})
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -296,12 +533,79 @@ export default function Certificates() {
 
                 <div className="space-y-2">
                   <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
-                    About This Certificate
+                    About This Credential
                   </h4>
                   <p className="text-gray-400 text-sm sm:text-base leading-relaxed font-light">
                     {selectedCertificate.description}
                   </p>
                 </div>
+
+                {/* Report Page Quick Jump if reportImages exists */}
+                {selectedCertificate.reportImages && (
+                  <div className="space-y-2 pt-2 border-t border-white/[0.04]">
+                    <div className="flex items-center justify-between">
+                      <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                        Final Report Pages (Click to View)
+                      </h4>
+                      {selectedCertificate.softSkillScore && (
+                        <span className="text-xs font-bold text-[#16C47F] font-mono">
+                          Tech Avg: {selectedCertificate.weightedScore} | Soft Skill: {selectedCertificate.softSkillScore}
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedCertificate.reportImages.map((_, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => {
+                            setActiveTab("report");
+                            setReportPage(idx);
+                          }}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all duration-300 cursor-pointer ${
+                            activeTab === "report" && reportPage === idx
+                              ? "bg-[#16C47F] text-black shadow-md scale-105"
+                              : "bg-white/[0.03] text-gray-300 hover:bg-white/[0.08] hover:text-white border border-white/[0.06]"
+                          }`}
+                        >
+                          Page {idx + 1}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Score breakdown if available */}
+                {selectedCertificate.scoresList && (
+                  <div className="space-y-3 pt-4 border-t border-white/[0.04]">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                      <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                        Academic Transcript & Course Grades
+                      </h4>
+                      <span className="text-xs font-bold text-[#FFD65A] font-mono">
+                        {selectedCertificate.weightedScore && `Weighted Score: ${selectedCertificate.weightedScore} / 100`}
+                        {selectedCertificate.totalCredits && ` (${selectedCertificate.totalCredits} Credits)`}
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {selectedCertificate.scoresList.map((item, idx) => (
+                        <div
+                          key={idx}
+                          className="bg-white/[0.02] border border-white/[0.05] p-2.5 rounded-lg flex items-center justify-between text-xs"
+                        >
+                          <span className="text-gray-300 font-medium">{item.subject}</span>
+                          <div className="flex items-center gap-2">
+                            {item.credits && (
+                              <span className="text-gray-500 text-[10px] font-mono">{item.credits} SKS</span>
+                            )}
+                            <span className="font-bold text-[#16C47F] bg-[#16C47F]/10 px-2 py-0.5 rounded border border-[#16C47F]/20 font-mono">
+                              {item.score}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="p-6 border-t border-white/[0.04] bg-[#0D0F14]/90 backdrop-blur-sm flex items-center justify-end gap-3">
@@ -365,13 +669,92 @@ export default function Certificates() {
                 />
               </svg>
             </button>
+
+            {/* Lightbox toggle tabs if scoreImage exists */}
+            {selectedCertificate.scoreImage && (
+              <div
+                onClick={(e) => e.stopPropagation()}
+                className="absolute top-5 left-5 z-10 flex gap-1.5 bg-[#050608]/90 backdrop-blur-md p-1.5 rounded-lg border border-white/[0.15]"
+              >
+                <button
+                  onClick={() => setActiveTab("certificate")}
+                  className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all duration-300 cursor-pointer ${
+                    activeTab === "certificate"
+                      ? "bg-[#16C47F] text-black shadow-md"
+                      : "text-gray-300 hover:text-white"
+                  }`}
+                >
+                  View Certificate
+                </button>
+                <button
+                  onClick={() => setActiveTab("transcript")}
+                  className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all duration-300 cursor-pointer ${
+                    activeTab === "transcript"
+                      ? "bg-[#FFD65A] text-black shadow-md"
+                      : "text-gray-300 hover:text-white"
+                  }`}
+                >
+                  View Transcript (Nilai)
+                </button>
+              </div>
+            )}
+
+            {/* Lightbox toggle tabs if reportImages exists */}
+            {selectedCertificate.reportImages && (
+              <div
+                onClick={(e) => e.stopPropagation()}
+                className="absolute top-5 left-5 z-10 flex flex-col sm:flex-row gap-2 bg-[#050608]/90 backdrop-blur-md p-2 rounded-lg border border-white/[0.15]"
+              >
+                <div className="flex gap-1.5">
+                  <button
+                    onClick={() => setActiveTab("certificate")}
+                    className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all duration-300 cursor-pointer ${
+                      activeTab === "certificate"
+                        ? "bg-[#16C47F] text-black shadow-md"
+                        : "text-gray-300 hover:text-white"
+                    }`}
+                  >
+                    View Certificate
+                  </button>
+                  <button
+                    onClick={() => setActiveTab("report")}
+                    className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all duration-300 cursor-pointer ${
+                      activeTab === "report"
+                        ? "bg-[#16C47F] text-black shadow-md"
+                        : "text-gray-300 hover:text-white"
+                    }`}
+                  >
+                    View Final Report
+                  </button>
+                </div>
+                {activeTab === "report" && (
+                  <div className="flex items-center gap-1 border-t sm:border-t-0 sm:border-l border-white/[0.1] pt-1 sm:pt-0 sm:pl-2">
+                    {selectedCertificate.reportImages.map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setReportPage(idx)}
+                        className={`w-6 h-6 rounded flex items-center justify-center text-[10px] font-mono font-bold transition-all duration-300 cursor-pointer ${
+                          reportPage === idx
+                            ? "bg-[#16C47F] text-black"
+                            : "bg-white/[0.05] text-gray-300 hover:text-white"
+                        }`}
+                      >
+                        {idx + 1}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
             <motion.img
+              key={`${activeTab}-${reportPage}`}
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               transition={{ duration: 0.25 }}
               onClick={(e) => e.stopPropagation()}
-              src={selectedCertificate.image}
+              src={getCurrentImageSource(selectedCertificate)}
               alt={selectedCertificate.title}
               className="max-w-full max-h-full object-contain rounded-lg shadow-2xl bg-white"
             />
@@ -381,3 +764,5 @@ export default function Certificates() {
     </div>
   );
 }
+
+

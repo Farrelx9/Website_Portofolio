@@ -83,26 +83,50 @@ export default function Certificates() {
         "Vercel Deployment & CI/CD",
       ],
       scoresList: [
-        { subject: "Chapter 1: Dasar Front-end (HTML & CSS)", score: 91, credits: 1 },
-        { subject: "Chapter 2: Dasar Pemrograman Javascript", score: 99, credits: 1 },
-        { subject: "Chapter 3: Web Dinamis ReactJS (Part 1)", score: 95.4, credits: 1 },
-        { subject: "Chapter 4: Web Dinamis ReactJS (Part 2)", score: 92, credits: 1 },
-        { subject: "Chapter 5: System Authentication Backend", score: 86, credits: 1 },
+        {
+          subject: "Chapter 1: Dasar Front-end (HTML & CSS)",
+          score: 91,
+          credits: 1,
+        },
+        {
+          subject: "Chapter 2: Dasar Pemrograman Javascript",
+          score: 99,
+          credits: 1,
+        },
+        {
+          subject: "Chapter 3: Web Dinamis ReactJS (Part 1)",
+          score: 95.4,
+          credits: 1,
+        },
+        {
+          subject: "Chapter 4: Web Dinamis ReactJS (Part 2)",
+          score: 92,
+          credits: 1,
+        },
+        {
+          subject: "Chapter 5: System Authentication Backend",
+          score: 86,
+          credits: 1,
+        },
         { subject: "Chapter 6: Redux State Management", score: 95, credits: 1 },
         { subject: "Chapter 7: Deployment & CI/CD", score: 100, credits: 1 },
-        { subject: "Chapter 8-10: Final Project Slicing & API", score: 85, credits: 3 },
+        {
+          subject: "Chapter 8-10: Final Project Slicing & API",
+          score: 85,
+          credits: 3,
+        },
       ],
     },
     {
       id: 3,
       num: "03",
       title: "Junior Web Programmer",
-      issuer: "LSP UPN \"Veteran\" Jawa Timur (BNSP)",
+      issuer: 'LSP UPN "Veteran" Jawa Timur (BNSP)',
       date: "2025",
       image: certificateLsp,
       pdfUrl: "#",
       description:
-        "National competency certification as a Junior Web Programmer issued by LSP UPN \"Veteran\" Jawa Timur under the authority of the National Professional Certification Board (BNSP), certifying professional proficiency in programming, database implementation, and software development standards.",
+        'National competency certification as a Junior Web Programmer issued by LSP UPN "Veteran" Jawa Timur under the authority of the National Professional Certification Board (BNSP), certifying professional proficiency in programming, database implementation, and software development standards.',
       skills: [
         "Web Programming",
         "Database (SQL)",
@@ -120,7 +144,7 @@ export default function Certificates() {
       image: certificateCdp,
       pdfUrl: "#",
       description:
-        "Certificate of completion for the Career Development Program (CDP) Workshop titled \"From Zero to Hero in Singapore Digital Realm\" hosted by Binar Academy, validating career strategies, tech industry trends, and global digital ecosystem readiness.",
+        'Certificate of completion for the Career Development Program (CDP) Workshop titled "From Zero to Hero in Singapore Digital Realm" hosted by Binar Academy, validating career strategies, tech industry trends, and global digital ecosystem readiness.',
       skills: [
         "Career Development",
         "Tech Industry Insights",
@@ -132,13 +156,13 @@ export default function Certificates() {
       id: 5,
       num: "05",
       title: "English Proficiency Test (EPT)",
-      issuer: "Language Center UPN \"Veteran\" Jawa Timur",
+      issuer: 'Language Center UPN "Veteran" Jawa Timur',
       date: "2025",
       score: "450",
       image: certificateEpt,
       pdfUrl: "#",
       description:
-        "English Proficiency Test (EPT) certificate issued by the Language Center (UPA Bahasa) of UPN \"Veteran\" Jawa Timur, certifying English proficiency with a score of 450 (Listening: 47, Structure: 44, Reading: 44).",
+        'English Proficiency Test (EPT) certificate issued by the Language Center (UPA Bahasa) of UPN "Veteran" Jawa Timur, certifying English proficiency with a score of 450 (Listening: 47, Structure: 44, Reading: 44).',
       skills: [
         "English Proficiency",
         "Listening Comprehension",
@@ -153,7 +177,11 @@ export default function Certificates() {
     if (activeTab === "transcript" && cert.scoreImage) {
       return cert.scoreImage;
     }
-    if (activeTab === "report" && cert.reportImages && cert.reportImages.length > 0) {
+    if (
+      activeTab === "report" &&
+      cert.reportImages &&
+      cert.reportImages.length > 0
+    ) {
       return cert.reportImages[reportPage] || cert.reportImages[0];
     }
     return cert.image;
@@ -347,7 +375,8 @@ export default function Certificates() {
           <span className="font-extrabold">the work.</span>
         </h2>
         <p className="text-gray-400 mt-6 max-w-xl leading-relaxed font-light">
-          Formal training programs, cloud architecture credentials, workshops, and professional assessments completed alongside the projects in my
+          Formal training programs, cloud architecture credentials, workshops,
+          and professional assessments completed alongside the projects in my
           portfolio.
         </p>
       </header>
@@ -583,14 +612,21 @@ export default function Certificates() {
                       &larr; Prev
                     </button>
                     <span className="text-[10px] font-mono text-gray-300 font-bold px-1">
-                      Page {reportPage + 1} / {selectedCertificate.reportImages.length}
+                      Page {reportPage + 1} /{" "}
+                      {selectedCertificate.reportImages.length}
                     </span>
                     <button
-                      disabled={reportPage === selectedCertificate.reportImages.length - 1}
+                      disabled={
+                        reportPage ===
+                        selectedCertificate.reportImages.length - 1
+                      }
                       onClick={(e) => {
                         e.stopPropagation();
                         setReportPage((prev) =>
-                          Math.min(selectedCertificate.reportImages.length - 1, prev + 1)
+                          Math.min(
+                            selectedCertificate.reportImages.length - 1,
+                            prev + 1,
+                          ),
                         );
                       }}
                       className="text-xs text-gray-300 hover:text-white disabled:opacity-30 disabled:hover:text-gray-300 px-1 font-bold cursor-pointer"
@@ -624,7 +660,13 @@ export default function Certificates() {
                           d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16zM11 8v6M8 11h6"
                         />
                       </svg>
-                      View Full Size ({activeTab === "report" ? `Page ${reportPage + 1}` : activeTab === "transcript" ? "Transcript" : "Certificate"})
+                      View Full Size (
+                      {activeTab === "report"
+                        ? `Page ${reportPage + 1}`
+                        : activeTab === "transcript"
+                          ? "Transcript"
+                          : "Certificate"}
+                      )
                     </span>
                   </div>
                 </div>
@@ -669,7 +711,8 @@ export default function Certificates() {
                       </h4>
                       {selectedCertificate.softSkillScore && (
                         <span className="text-xs font-bold text-[#16C47F] font-mono">
-                          Tech Avg: {selectedCertificate.weightedScore} | Soft Skill: {selectedCertificate.softSkillScore}
+                          Tech Avg: {selectedCertificate.weightedScore} | Soft
+                          Skill: {selectedCertificate.softSkillScore}
                         </span>
                       )}
                     </div>
@@ -702,8 +745,10 @@ export default function Certificates() {
                         Academic Transcript & Course Grades
                       </h4>
                       <span className="text-xs font-bold text-[#FFD65A] font-mono">
-                        {selectedCertificate.weightedScore && `Weighted Score: ${selectedCertificate.weightedScore} / 100`}
-                        {selectedCertificate.totalCredits && ` (${selectedCertificate.totalCredits} Credits)`}
+                        {selectedCertificate.weightedScore &&
+                          `Weighted Score: ${selectedCertificate.weightedScore} / 100`}
+                        {selectedCertificate.totalCredits &&
+                          ` (${selectedCertificate.totalCredits} Credits)`}
                       </span>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -712,10 +757,14 @@ export default function Certificates() {
                           key={idx}
                           className="bg-white/[0.02] border border-white/[0.05] p-2.5 rounded-lg flex items-center justify-between text-xs"
                         >
-                          <span className="text-gray-300 font-medium">{item.subject}</span>
+                          <span className="text-gray-300 font-medium">
+                            {item.subject}
+                          </span>
                           <div className="flex items-center gap-2">
                             {item.credits && (
-                              <span className="text-gray-500 text-[10px] font-mono">{item.credits} SKS</span>
+                              <span className="text-gray-500 text-[10px] font-mono">
+                                {item.credits} SKS
+                              </span>
                             )}
                             <span className="font-bold text-[#16C47F] bg-[#16C47F]/10 px-2 py-0.5 rounded border border-[#16C47F]/20 font-mono">
                               {item.score}
@@ -884,5 +933,3 @@ export default function Certificates() {
     </div>
   );
 }
-
-

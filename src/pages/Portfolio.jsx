@@ -13,6 +13,10 @@ import ngeflyFlightList from "../assets/ngefly_flight_list.png";
 import ngeflyPassengerData from "../assets/ngefly_passenger_data.png";
 import ngeflyPayment from "../assets/ngefly_payment.png";
 import ngeflySuccess from "../assets/ngefly_success.png";
+import halowinHome from "../assets/halowinHome.png";
+import halowinAdminProduk from "../assets/halowinAdminProduk.png";
+import halowinPembayaran from "../assets/halowinPembayaran.png";
+import halowinAdminKategori from "../assets/halowinAdminKategori.png";
 import {
   SiReact,
   SiTailwindcss,
@@ -245,6 +249,45 @@ export default function Portfolio() {
         "Transaction Confirmation & PDF Ticket Export Flow",
       ],
     },
+    {
+      id: 5,
+      num: "05",
+      title: "HaloWin",
+      description:
+        "An e-commerce web app for health & medical equipment, built with vanilla PHP and MySQL. Features product catalog, cart, checkout, and a full admin panel for managing products and categories.",
+      longDescription:
+        "HaloWin is a full-stack e-commerce application for health and medical equipment (masks, wheelchairs, walkers, supplements, medicine) built with native PHP and MySQL. It includes a customer-facing storefront with product search, category filtering, cart, and checkout, plus a secure admin panel for managing products, categories, and viewing transactions. The project also integrates PHPMailer for email notifications and generates PDF transaction receipts.",
+      images: [
+        halowinHome,
+        halowinAdminProduk,
+        halowinAdminKategori,
+        halowinPembayaran,
+      ],
+      imageFit: "cover",
+      imageLabels: [
+        "Storefront",
+        "Admin - Product Data",
+        "Admin - Category Data",
+        "Payment / Checkout",
+      ],
+      githubUrl: "https://github.com/Farrelx9/UJIKOM-SERTIFIKASI",
+      technologies: [
+        "PHP (Native)",
+        "MySQL",
+        "PHPMailer",
+        "jsPDF / PDF Export",
+        "Bootstrap",
+        "REST-style Routing",
+      ],
+      features: [
+        "Product Catalog with Category Filter & Search",
+        "Cart & Checkout Flow (Keranjang & Pembayaran)",
+        "Admin Panel — Manage Products & Categories (CRUD)",
+        "Transaction History & PDF Receipt Export",
+        "User Registration & Login (Session-based Auth)",
+        "Email Notifications via PHPMailer",
+      ],
+    },
   ];
 
   const paginate = (newDirection) => {
@@ -284,15 +327,18 @@ export default function Portfolio() {
   const [zoomIndex, setZoomIndex] = React.useState(0);
 
   // Navigate zoom lightbox
-  const zoomNavigate = React.useCallback((dir) => {
-    if (!zoomedImage?.images) return;
-    setZoomIndex((prev) => {
-      const next = prev + dir;
-      if (next < 0) return zoomedImage.images.length - 1;
-      if (next >= zoomedImage.images.length) return 0;
-      return next;
-    });
-  }, [zoomedImage]);
+  const zoomNavigate = React.useCallback(
+    (dir) => {
+      if (!zoomedImage?.images) return;
+      setZoomIndex((prev) => {
+        const next = prev + dir;
+        if (next < 0) return zoomedImage.images.length - 1;
+        if (next >= zoomedImage.images.length) return 0;
+        return next;
+      });
+    },
+    [zoomedImage],
+  );
 
   // Close zoom on Escape
   React.useEffect(() => {
@@ -879,6 +925,7 @@ export default function Portfolio() {
               {(() => {
                 const project = projects[currentIndex];
                 const hasWebsite = project.liveUrl && project.liveUrl !== "#";
+                const hasGithub = !hasWebsite && project.githubUrl;
                 const currentImage = project.images
                   ? project.images[0]
                   : project.image;
@@ -1020,6 +1067,28 @@ export default function Portfolio() {
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                              />
+                            </svg>
+                          </a>
+                        )}
+                        {hasGithub && (
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-gray-300 hover:text-white transition-colors text-xs font-semibold px-4 py-2 bg-white/[0.03] hover:bg-white/[0.08] rounded-lg border border-white/[0.08] hover:border-[#16C47F]/30 flex items-center gap-2"
+                          >
+                            <span>View Code</span>
+                            <svg
+                              className="w-3 h-3"
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"
                               />
                             </svg>
                           </a>
@@ -1343,7 +1412,8 @@ export default function Portfolio() {
                     <span className="w-1.5 h-1.5 rounded-full bg-[#FFD65A]/70"></span>
                     <span className="w-1.5 h-1.5 rounded-full bg-[#16C47F]/70"></span>
                     <span className="ml-3 flex-1 bg-white/[0.03] rounded text-[10px] text-gray-500 h-5 flex items-center px-3 truncate max-w-xs">
-                      {selectedProject.liveUrl !== "#"
+                      {selectedProject.liveUrl &&
+                      selectedProject.liveUrl !== "#"
                         ? selectedProject.liveUrl.replace("https://", "")
                         : selectedProject.title}
                     </span>
@@ -1355,7 +1425,9 @@ export default function Portfolio() {
                     onClick={() => {
                       setZoomedImage({
                         src: selectedProject.images[activeImageIndex],
-                        alt: selectedProject.imageLabels?.[activeImageIndex] ?? selectedProject.title,
+                        alt:
+                          selectedProject.imageLabels?.[activeImageIndex] ??
+                          selectedProject.title,
                         images: selectedProject.images,
                         labels: selectedProject.imageLabels,
                       });
@@ -1377,8 +1449,18 @@ export default function Portfolio() {
                     <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#0D0F14] to-transparent pointer-events-none" />
                     {/* Zoom hint */}
                     <div className="absolute top-3 right-3 opacity-0 group-hover/zoom:opacity-100 transition-opacity duration-200 bg-black/60 backdrop-blur-md rounded-full p-1.5 border border-white/10">
-                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6" />
+                      <svg
+                        className="w-4 h-4 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6"
+                        />
                       </svg>
                     </div>
                   </div>
@@ -1410,7 +1492,8 @@ export default function Portfolio() {
                     <span className="w-1.5 h-1.5 rounded-full bg-[#FFD65A]/70"></span>
                     <span className="w-1.5 h-1.5 rounded-full bg-[#16C47F]/70"></span>
                     <span className="ml-3 flex-1 bg-white/[0.03] rounded text-[10px] text-gray-500 h-5 flex items-center px-3 truncate max-w-xs">
-                      {selectedProject.liveUrl !== "#"
+                      {selectedProject.liveUrl &&
+                      selectedProject.liveUrl !== "#"
                         ? selectedProject.liveUrl.replace("https://", "")
                         : selectedProject.title}
                     </span>
@@ -1439,8 +1522,18 @@ export default function Portfolio() {
                     <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#0D0F14] to-transparent pointer-events-none" />
                     {/* Zoom hint */}
                     <div className="absolute top-3 right-3 opacity-0 group-hover/zoom:opacity-100 transition-opacity duration-200 bg-black/60 backdrop-blur-md rounded-full p-1.5 border border-white/10">
-                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6" />
+                      <svg
+                        className="w-4 h-4 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6"
+                        />
                       </svg>
                     </div>
                   </div>
@@ -1528,6 +1621,7 @@ export default function Portfolio() {
                 >
                   Close
                 </button>
+
                 {selectedProject.liveUrl && selectedProject.liveUrl !== "#" && (
                   <motion.a
                     whileHover={{ y: -2 }}
@@ -1553,6 +1647,32 @@ export default function Portfolio() {
                     </svg>
                   </motion.a>
                 )}
+
+                {(!selectedProject.liveUrl ||
+                  selectedProject.liveUrl === "#") &&
+                  selectedProject.githubUrl && (
+                    <motion.a
+                      whileHover={{ y: -2 }}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
+                      href={selectedProject.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-5 py-2.5 rounded-lg bg-white hover:bg-gray-200 text-black transition-colors duration-300 font-bold text-xs tracking-wider uppercase flex items-center gap-2 cursor-pointer"
+                    >
+                      View on GitHub
+                      <svg
+                        className="w-4 h-4"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"
+                        />
+                      </svg>
+                    </motion.a>
+                  )}
               </div>
             </motion.div>
           </div>
@@ -1581,8 +1701,16 @@ export default function Portfolio() {
               onClick={(e) => e.stopPropagation()}
             >
               <img
-                src={zoomedImage.images ? zoomedImage.images[zoomIndex] : zoomedImage.src}
-                alt={zoomedImage.labels ? (zoomedImage.labels[zoomIndex] ?? zoomedImage.alt) : zoomedImage.alt}
+                src={
+                  zoomedImage.images
+                    ? zoomedImage.images[zoomIndex]
+                    : zoomedImage.src
+                }
+                alt={
+                  zoomedImage.labels
+                    ? (zoomedImage.labels[zoomIndex] ?? zoomedImage.alt)
+                    : zoomedImage.alt
+                }
                 className="max-w-[90vw] max-h-[85vh] object-contain rounded-xl shadow-2xl select-none"
                 draggable={false}
               />
@@ -1597,12 +1725,25 @@ export default function Portfolio() {
             {/* Prev button */}
             {zoomedImage.images && zoomedImage.images.length > 1 && (
               <button
-                onClick={(e) => { e.stopPropagation(); zoomNavigate(-1); }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  zoomNavigate(-1);
+                }}
                 className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all duration-200 cursor-pointer backdrop-blur-md"
                 aria-label="Previous image"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15 19l-7-7 7-7"
+                  />
                 </svg>
               </button>
             )}
@@ -1610,12 +1751,25 @@ export default function Portfolio() {
             {/* Next button */}
             {zoomedImage.images && zoomedImage.images.length > 1 && (
               <button
-                onClick={(e) => { e.stopPropagation(); zoomNavigate(1); }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  zoomNavigate(1);
+                }}
                 className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all duration-200 cursor-pointer backdrop-blur-md"
                 aria-label="Next image"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </button>
             )}
@@ -1626,9 +1780,14 @@ export default function Portfolio() {
                 {zoomedImage.images.map((_, idx) => (
                   <button
                     key={idx}
-                    onClick={(e) => { e.stopPropagation(); setZoomIndex(idx); }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setZoomIndex(idx);
+                    }}
                     className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                      idx === zoomIndex ? "w-6 bg-white" : "w-1.5 bg-white/30 hover:bg-white/60"
+                      idx === zoomIndex
+                        ? "w-6 bg-white"
+                        : "w-1.5 bg-white/30 hover:bg-white/60"
                     }`}
                     aria-label={`Go to image ${idx + 1}`}
                   />
@@ -1642,8 +1801,18 @@ export default function Portfolio() {
               className="absolute top-4 right-4 z-30 p-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all duration-200 cursor-pointer backdrop-blur-md"
               aria-label="Close zoom"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
 

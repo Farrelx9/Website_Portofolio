@@ -1,8 +1,26 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { Suspense, lazy } from "react";
+import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
-import profilePhoto from "../assets/profile_photo.jpg";
+import PortfolioHero from "../components/portfolio/PortfolioHero";
+
+// Lazy-loaded sections and modals for performance & memory efficiency on iOS Safari
+const TechStackSection = lazy(
+  () => import("../components/portfolio/TechStackSection"),
+);
+const ProjectCarouselSection = lazy(
+  () => import("../components/portfolio/ProjectCarouselSection"),
+);
+const CredentialsCTASection = lazy(
+  () => import("../components/portfolio/CredentialsCTASection"),
+);
+const ProjectDetailModal = lazy(
+  () => import("../components/portfolio/ProjectDetailModal"),
+);
+const ImageLightboxModal = lazy(
+  () => import("../components/portfolio/ImageLightboxModal"),
+);
+
+// Assets
 import binarCarRental from "../assets/binar_car_rental.png";
 import iclixProject from "../assets/iclix_project.png";
 import klinikDrGirnaPatient from "../assets/klinik_dr_girna_patient.png";
@@ -18,6 +36,7 @@ import halowinHome from "../assets/halowinHome.png";
 import halowinAdminProduk from "../assets/halowinAdminProduk.png";
 import halowinPembayaran from "../assets/halowinPembayaran.png";
 import halowinAdminKategori from "../assets/halowinAdminKategori.png";
+
 import {
   SiReact,
   SiTailwindcss,
@@ -35,8 +54,6 @@ import {
 import { Globe, Cloud } from "lucide-react";
 
 /* ---------- Reusable motion helpers ---------- */
-
-// Wrap any section content so it fades/rises into view once, as the user scrolls to it.
 const Reveal = ({
   children,
   delay = 0,
@@ -56,14 +73,13 @@ const Reveal = ({
   </motion.div>
 );
 
-// Stagger a list of children (used for skill chips / project grid)
 const staggerContainer = {
   hidden: {},
   show: {
     transition: { staggerChildren: 0.08, delayChildren: 0.05 },
   },
 };
-// Animasi baru agar teks di dalam kartu muncul berurutan (staggered)
+
 const cardContentVariants = {
   hidden: { opacity: 0 },
   show: {
@@ -81,7 +97,6 @@ const cardItemVariants = {
   },
 };
 
-// Update slideVariants agar ada efek scale sedikit saat geser (lebih halus)
 const slideVariants = {
   enter: (dir) => ({
     x: dir > 0 ? "100%" : "-100%",
@@ -104,6 +119,7 @@ const slideVariants = {
     },
   }),
 };
+
 const staggerItem = {
   hidden: { opacity: 0, y: 18, scale: 0.98 },
   show: {
@@ -311,7 +327,7 @@ export default function Portfolio() {
     return () => clearInterval(timer);
   }, [isPaused, currentIndex]);
 
-  // Keep isMobile in sync with actual viewport changes (resize, rotation)
+  // Keep isMobile in sync with actual viewport changes
   React.useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", handleResize);
@@ -320,7 +336,7 @@ export default function Portfolio() {
 
   const closeButtonRef = React.useRef(null);
   const lastFocusedRef = React.useRef(null);
-  const [zoomedImage, setZoomedImage] = React.useState(null); // { src, alt, images, index }
+  const [zoomedImage, setZoomedImage] = React.useState(null);
   const [zoomIndex, setZoomIndex] = React.useState(0);
 
   // Navigate zoom lightbox
@@ -403,7 +419,7 @@ export default function Portfolio() {
       {/* Decorative fine-line grid overlay */}
       <div className="absolute inset-0 max-w-7xl mx-auto border-x border-white/[0.02] pointer-events-none z-0"></div>
 
-      {/* Ambient glow — barely-there, moves too slowly to consciously notice */}
+      {/* Ambient glow */}
       <motion.div
         aria-hidden
         className="pointer-events-none fixed -top-40 -left-40 w-[32rem] h-[32rem] rounded-full bg-[#16C47F]/[0.04] blur-[140px] z-0"
@@ -420,673 +436,62 @@ export default function Portfolio() {
       {/* Floating Capsule Navbar */}
       <Navbar />
 
-      <header className="relative w-full overflow-hidden py-28 md:py-36 z-10">
-        <div className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row items-center justify-between gap-16">
-          {/* Left Content */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="flex-1 text-center md:text-left"
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.02] border border-white/[0.06] mb-8"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-[#16C47F] animate-pulse"></span>
-              <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
-                Available for hire
-              </span>
-            </motion.div>
+      {/* Hero Section */}
+      <PortfolioHero isMobile={isMobile} />
 
-            <motion.h2
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.7,
-                delay: 0.15,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="text-5xl md:text-7xl font-light mb-6 tracking-tight text-white leading-none"
-            >
-              Fresh Graduate Full-Stack Developer <br />
-              <motion.span
-                animate={{
-                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-                }}
-                transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-                className="font-extrabold bg-gradient-to-r from-[#16C47F] via-[#FFD65A] to-[#FF9D23] bg-clip-text text-transparent"
-                style={{ backgroundSize: "200% auto" }}
-              >
-                {isMobile ? "building for scale." : "Building for Scale."}
-              </motion.span>
-            </motion.h2>
+      <Suspense fallback={<div className="py-12 text-center text-gray-600 text-xs">Loading section...</div>}>
+        {/* Tech Stack Section */}
+        <TechStackSection
+          Reveal={Reveal}
+          staggerContainer={staggerContainer}
+          staggerItem={staggerItem}
+          skillCategories={skillCategories}
+        />
 
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.7,
-                delay: 0.25,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="text-lg text-gray-400 mb-10 max-w-lg leading-relaxed mx-auto md:mx-0 font-light"
-            >
-              Hi, I'm Farrel Farhan, a Fresh Graduate Full-Stack Developer
-              passionate about building clean, scalable, and user-focused web
-              applications. With strong fundamentals in JavaScript, React, and
-              modern web technologies, I specialize in turning design concepts
-              into responsive, high-performance interfaces — always learning,
-              iterating, and committed to delivering high-quality work.
-            </motion.p>
+        {/* Project Carousel Section */}
+        <ProjectCarouselSection
+          Reveal={Reveal}
+          slideVariants={slideVariants}
+          cardContentVariants={cardContentVariants}
+          cardItemVariants={cardItemVariants}
+          projects={projects}
+          currentIndex={currentIndex}
+          direction={direction}
+          isPaused={isPaused}
+          setIsPaused={setIsPaused}
+          paginate={paginate}
+          setCurrentIndex={setCurrentIndex}
+          setDirection={setDirection}
+          setSelectedProject={setSelectedProject}
+          setActiveImageIndex={setActiveImageIndex}
+        />
 
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.7,
-                delay: 0.35,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="flex flex-wrap gap-4 justify-center md:justify-start"
-            >
-              <motion.a
-                whileHover={{ y: -2 }}
-                transition={{ duration: 0.25, ease: "easeOut" }}
-                href="#projects"
-                className="px-7 py-3 bg-white text-black hover:bg-gray-200 rounded-lg font-bold tracking-wide transition-colors duration-300 shadow-xl shadow-white/5 cursor-pointer text-sm"
-              >
-                Selected Works
-              </motion.a>
-              <motion.a
-                whileHover={{ y: -2 }}
-                transition={{ duration: 0.25, ease: "easeOut" }}
-                href={`https://wa.me/6282135920275?text=${encodeURIComponent(
-                  "Hi, I'm interested in your portfolio—let's connect.",
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-7 py-3 bg-transparent border border-white/[0.1] hover:border-[#FFD65A] text-gray-300 hover:text-white rounded-lg font-semibold tracking-wide transition-colors duration-300 cursor-pointer text-sm"
-              >
-                Say Hello
-              </motion.a>
-              <motion.a
-                whileHover={{ y: -2 }}
-                transition={{ duration: 0.25, ease: "easeOut" }}
-                href="/CV_FarrelFarhan.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group px-7 py-3 bg-white/[0.02] hover:bg-white/[0.04] border border-white/[0.08] hover:border-[#FF9D23] text-gray-300 hover:text-white rounded-lg font-semibold tracking-wide transition-colors duration-300 cursor-pointer text-sm inline-flex items-center gap-2"
-              >
-                <svg
-                  className="w-4 h-4 text-[#FF9D23] transition-transform duration-300 group-hover:translate-y-0.5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16"
-                  />
-                </svg>
-                Download CV
-              </motion.a>
-            </motion.div>
-          </motion.div>
+        {/* Credentials & Experience CTA Section */}
+        <CredentialsCTASection
+          staggerContainer={staggerContainer}
+          staggerItem={staggerItem}
+        />
 
-          {/* Right Photo Frame */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.92, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="flex-1 flex justify-center items-center"
-          >
-            <motion.div
-              animate={{ y: [0, -12, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <motion.div
-                className="relative group"
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <div className="absolute inset-4 border border-[#16C47F]/40 translate-x-4 translate-y-4 rounded-2xl group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-500"></div>
-                <div className="absolute inset-4 border border-[#FF9D23]/30 -translate-x-4 -translate-y-4 rounded-2xl group-hover:-translate-x-2 group-hover:-translate-y-2 transition-transform duration-500"></div>
+        {/* Project Detail Modal */}
+        <ProjectDetailModal
+          selectedProject={selectedProject}
+          setSelectedProject={setSelectedProject}
+          activeImageIndex={activeImageIndex}
+          setActiveImageIndex={setActiveImageIndex}
+          setZoomedImage={setZoomedImage}
+          setZoomIndex={setZoomIndex}
+          closeButtonRef={closeButtonRef}
+        />
 
-                <div className="relative w-64 aspect-[3/4] md:w-80 bg-[#0D0F14] border border-white/[0.08] rounded-2xl p-2 overflow-hidden flex items-center justify-center shadow-2xl">
-                  <img
-                    src={profilePhoto}
-                    alt="Farrel Farhan"
-                    loading="eager"
-                    decoding="async"
-                    className="w-full h-full object-cover object-top rounded-xl filter group-hover:grayscale-0 transition-all duration-700 ease-out scale-[1.02] group-hover:scale-105"
-                  />
-                </div>
-              </motion.div>
-            </motion.div>
-          </motion.div>
-        </div>
-        <motion.a
-          href="#projects"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1, y: [0, 8, 0] }}
-          transition={{
-            opacity: { delay: 1, duration: 0.6 },
-            y: { delay: 1, duration: 1.8, repeat: Infinity, ease: "easeInOut" },
-          }}
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-500 hover:text-white transition-colors duration-300 cursor-pointer"
-        >
-          <span className="text-[9px] font-bold uppercase tracking-widest">
-            Scroll
-          </span>
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M19 14l-7 7m0 0l-7-7m7 7V3"
-            />
-          </svg>
-        </motion.a>
-      </header>
-
-      {/* Tech Stack Section */}
-      <section
-        id="skills"
-        className="py-20 px-8 max-w-7xl mx-auto border-t border-white/[0.04] relative z-10"
-      >
-        <div className="flex flex-col md:flex-row gap-12">
-          {/* Section Heading */}
-          <Reveal className="md:w-1/3">
-            <span className="text-xs text-[#FFD65A] font-bold tracking-widest uppercase block mb-2">
-              [ SKILLS & TOOLS ]
-            </span>
-            <h3 className="text-3xl md:text-4xl font-light text-white tracking-tight">
-              My technical <span className="font-extrabold">arsenal.</span>
-            </h3>
-            <p className="text-gray-400 mt-4 text-sm leading-relaxed font-light max-w-md">
-              A curated selection of languages, frameworks, databases, and
-              developer tools that I use to build web applications.
-            </p>
-          </Reveal>
-
-          {/* Categories Grid */}
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
-            className="md:w-2/3 grid grid-cols-1 sm:grid-cols-3 gap-6"
-          >
-            {/* Frontend Category */}
-            <motion.div
-              variants={staggerItem}
-              whileHover={{ y: -3 }}
-              transition={{ duration: 0.35, ease: "easeOut" }}
-              className="bg-[#0D0F14]/40 border border-white/[0.06] rounded-2xl p-6 flex flex-col justify-between group/card hover:border-[#16C47F]/30 transition-colors duration-300"
-            >
-              <div>
-                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest block mb-4">
-                  01 / Frontend
-                </span>
-                <h4 className="text-lg font-bold text-white mb-6 group-hover/card:text-[#16C47F] transition-colors duration-300">
-                  Client & Interface
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {skillCategories.frontend.map((tech) => (
-                    <motion.span
-                      whileHover={{ y: -2 }}
-                      key={tech.name}
-                      className="inline-flex items-center gap-1.5 text-[10px] text-gray-300 bg-white/[0.02] border border-white/[0.06] px-2.5 py-1 rounded-md cursor-default"
-                    >
-                      <tech.icon
-                        className="w-3 h-3 shrink-0"
-                        style={{ color: tech.color }}
-                      />
-                      {tech.name}
-                    </motion.span>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Backend Category */}
-            <motion.div
-              variants={staggerItem}
-              whileHover={{ y: -3 }}
-              transition={{ duration: 0.35, ease: "easeOut" }}
-              className="bg-[#0D0F14]/40 border border-white/[0.06] rounded-2xl p-6 flex flex-col justify-between group/card hover:border-[#FFD65A]/30 transition-colors duration-300"
-            >
-              <div>
-                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest block mb-4">
-                  02 / Backend
-                </span>
-                <h4 className="text-lg font-bold text-white mb-6 group-hover/card:text-[#FFD65A] transition-colors duration-300">
-                  Logic & Services
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {skillCategories.backend.map((tech) => (
-                    <motion.span
-                      whileHover={{ y: -2 }}
-                      key={tech.name}
-                      className="inline-flex items-center gap-1.5 text-[10px] text-gray-300 bg-white/[0.02] border border-white/[0.06] px-2.5 py-1 rounded-md cursor-default"
-                    >
-                      <tech.icon
-                        className="w-3 h-3 shrink-0"
-                        style={{ color: tech.color }}
-                      />
-                      {tech.name}
-                    </motion.span>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Databases & Tools Category */}
-            <motion.div
-              variants={staggerItem}
-              whileHover={{ y: -3 }}
-              transition={{ duration: 0.35, ease: "easeOut" }}
-              className="bg-[#0D0F14]/40 border border-white/[0.06] rounded-2xl p-6 flex flex-col justify-between group/card hover:border-[#FF9D23]/30 transition-colors duration-300"
-            >
-              <div>
-                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest block mb-4">
-                  03 / Infrastructure
-                </span>
-                <h4 className="text-lg font-bold text-white mb-6 group-hover/card:text-[#FF9D23] transition-colors duration-300">
-                  Storage & Tools
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {skillCategories.infra.map((tech) => (
-                    <motion.span
-                      whileHover={{ y: -2 }}
-                      key={tech.name}
-                      className="inline-flex items-center gap-1.5 text-[10px] text-gray-300 bg-white/[0.02] border border-white/[0.06] px-2.5 py-1 rounded-md cursor-default"
-                    >
-                      <tech.icon
-                        className="w-3 h-3 shrink-0"
-                        style={{ color: tech.color }}
-                      />
-                      {tech.name}
-                    </motion.span>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Projects Section — Carousel */}
-      <section
-        id="projects"
-        className="py-28 px-8 max-w-7xl mx-auto border-t border-white/[0.04] relative z-10"
-      >
-        <Reveal className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 w-full">
-            <div>
-              <span className="text-xs text-[#16C47F] font-bold tracking-widest uppercase block mb-2">
-                [ 02 / SELECTED WORK ]
-              </span>
-              <h3 className="text-3xl md:text-4xl font-light text-white tracking-tight">
-                A curated portfolio of{" "}
-                <span className="font-extrabold">
-                  production-ready web applications
-                </span>
-              </h3>
-            </div>
-            <div className="h-px bg-white/[0.05] flex-1 mx-8 hidden md:block"></div>
-          </div>
-        </Reveal>
-
-        <div
-          className="relative"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
-          {/* Slide track */}
-          <div className="relative overflow-hidden rounded-2xl">
-            <AnimatePresence initial={false} custom={direction} mode="wait">
-              {(() => {
-                const project = projects[currentIndex];
-                const hasWebsite = project.liveUrl && project.liveUrl !== "#";
-                const hasGithub = !hasWebsite && project.githubUrl;
-                const currentImage = project.images
-                  ? project.images[0]
-                  : project.image;
-
-                return (
-                  <motion.div
-                    key={project.id}
-                    custom={direction}
-                    variants={slideVariants}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    style={{ touchAction: "pan-y" }}
-                    drag="x"
-                    dragConstraints={{ left: 0, right: 0 }}
-                    dragElastic={0.15}
-                    onDragEnd={(e, info) => {
-                      if (info.offset.x < -60) paginate(1);
-                      else if (info.offset.x > 60) paginate(-1);
-                    }}
-                    onClick={() => {
-                      setSelectedProject(project);
-                      setActiveImageIndex(0);
-                    }}
-                    className="bg-[#0D0F14]/60 md:backdrop-blur-sm accelerate-gpu border border-white/[0.08] hover:border-white/[0.15] rounded-2xl overflow-hidden shadow-2xl shadow-black/20 flex flex-col md:flex-row cursor-pointer group"
-                  >
-                    {/* --- SISI GAMBAR (DIPERBAIKI RESPONSIFNYA) --- */}
-                    {/* aspect-[4/3] di mobile agar tidak gepeng, md:h-auto di desktop agar proporsional */}
-                    <div className="w-full md:w-1/2 aspect-[4/3] md:aspect-auto md:h-auto relative overflow-hidden bg-[#090A0E] border-b md:border-b-0 md:border-r border-white/[0.06] shrink-0">
-                      {/* Browser Chrome (Dikecilkan sedikit di mobile agar rapi) */}
-                      <div className="absolute top-0 left-0 right-0 h-7 md:h-8 bg-[#0D0F14]/90 md:backdrop-blur-md flex items-center px-3 md:px-4 gap-2 z-10 border-b border-white/[0.03]">
-                        <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-[#F93827]/80"></span>
-                        <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-[#FFD65A]/80"></span>
-                        <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-[#16C47F]/80"></span>
-                        <span className="ml-2 flex-1 bg-white/[0.03] rounded-sm h-4 md:h-5 text-[8px] md:text-[9px] text-gray-500 tracking-wider flex items-center px-2 md:px-3 truncate">
-                          {hasWebsite
-                            ? project.liveUrl.replace("https://", "")
-                            : project.title}
-                        </span>
-                      </div>
-
-                      {/* Gambar dengan object-cover optimal */}
-                      <img
-                        src={currentImage}
-                        alt={project.title}
-                        draggable={false}
-                        loading="lazy"
-                        decoding="async"
-                        className={`w-full h-full transform transition-transform duration-700 ease-out group-hover:scale-105 ${
-                          project.imageFit === "contain"
-                            ? "object-contain p-6 bg-[#0D0F14]"
-                            : "object-cover object-top"
-                        }`}
-                        style={{ paddingTop: "28px" }}
-                      />
-                      {/* Gradient overlay agar transisi ke teks lebih halus */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0D0F14] via-transparent to-transparent opacity-60 md:opacity-40 pointer-events-none"></div>
-
-                      {/* Hint "Klik untuk detail" saat hover */}
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                        <span className="bg-black/60 md:backdrop-blur-md text-white text-xs font-bold px-4 py-2 rounded-full border border-white/10">
-                          Click to explore
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* --- SISI TEKS --- */}
-                    <div className="w-full md:w-1/2 p-6 sm:p-8 md:p-10 flex flex-col justify-between">
-                      <motion.div
-                        variants={cardContentVariants}
-                        initial="hidden"
-                        animate="show"
-                      >
-                        <motion.div
-                          variants={cardItemVariants}
-                          className="flex items-center justify-between mb-4"
-                        >
-                          <span className="text-[10px] text-gray-500 font-mono tracking-widest font-bold">
-                            PROJ / {project.num}
-                          </span>
-                          <div className="flex gap-1.5 flex-wrap justify-end">
-                            {project.technologies.slice(0, 3).map((tech) => (
-                              <span
-                                key={tech}
-                                className="text-[9px] md:text-[10px] text-[#FF9D23] bg-[#FF9D23]/5 px-2 py-1 rounded-md border border-[#FF9D23]/10 font-bold uppercase tracking-wider"
-                              >
-                                {tech}
-                              </span>
-                            ))}
-                          </div>
-                        </motion.div>
-
-                        <motion.h4
-                          variants={cardItemVariants}
-                          className="text-2xl sm:text-3xl font-bold mb-3 text-white group-hover:text-[#FFD65A] transition-colors duration-300 leading-tight"
-                        >
-                          {project.title}
-                        </motion.h4>
-
-                        <motion.p
-                          variants={cardItemVariants}
-                          className="text-gray-400 text-sm md:text-base leading-relaxed font-light line-clamp-4 md:line-clamp-none"
-                        >
-                          {project.description}
-                        </motion.p>
-                      </motion.div>
-
-                      <motion.div
-                        variants={cardItemVariants}
-                        className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-t border-white/[0.06] pt-6 mt-6 md:mt-8 gap-4"
-                      >
-                        <span className="text-[#16C47F] group-hover:text-white font-bold text-xs tracking-wider flex items-center gap-1.5 transition-colors">
-                          EXPLORE PROJECT{" "}
-                          <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
-                            &rarr;
-                          </span>
-                        </span>
-
-                        {hasWebsite && (
-                          <a
-                            href={project.liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={(e) =>
-                              e.stopPropagation()
-                            } /* PENTING: Mencegah modal terbuka saat klik link ini */
-                            className="text-gray-300 hover:text-white transition-colors text-xs font-semibold px-4 py-2 bg-white/[0.03] hover:bg-white/[0.08] rounded-lg border border-white/[0.08] hover:border-[#16C47F]/30 flex items-center gap-2"
-                          >
-                            <span>Visit Site</span>
-                            <svg
-                              className="w-3 h-3"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                              />
-                            </svg>
-                          </a>
-                        )}
-                        {hasGithub && (
-                          <a
-                            href={project.githubUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={(e) => e.stopPropagation()}
-                            className="text-gray-300 hover:text-white transition-colors text-xs font-semibold px-4 py-2 bg-white/[0.03] hover:bg-white/[0.08] rounded-lg border border-white/[0.08] hover:border-[#16C47F]/30 flex items-center gap-2"
-                          >
-                            <span>View Code</span>
-                            <svg
-                              className="w-3 h-3"
-                              fill="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"
-                              />
-                            </svg>
-                          </a>
-                        )}
-                      </motion.div>
-                    </div>
-                  </motion.div>
-                );
-              })()}
-            </AnimatePresence>
-          </div>
-
-          {/* Prev / Next arrows */}
-          <button
-            onClick={() => paginate(-1)}
-            aria-label="Previous project"
-            className="absolute left-2 md:-left-5 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-[#0D0F14]/90 border border-white/[0.08] text-gray-400 hover:text-white hover:border-[#16C47F]/40 hover:bg-[#16C47F]/10 backdrop-blur-md transition-all duration-300 cursor-pointer shadow-lg"
-          >
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </button>
-          <button
-            onClick={() => paginate(1)}
-            aria-label="Next project"
-            className="absolute right-2 md:-right-5 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-[#0D0F14]/90 border border-white/[0.08] text-gray-400 hover:text-white hover:border-[#16C47F]/40 hover:bg-[#16C47F]/10 backdrop-blur-md transition-all duration-300 cursor-pointer shadow-lg"
-          >
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </button>
-
-          {/* Dot indicators */}
-          <div className="flex justify-center gap-2 mt-8">
-            {projects.map((p, idx) => (
-              <button
-                key={p.id}
-                onClick={() => {
-                  setDirection(idx > currentIndex ? 1 : -1);
-                  setCurrentIndex(idx);
-                }}
-                aria-label={`Go to project ${idx + 1}`}
-                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                  idx === currentIndex
-                    ? "w-8 bg-[#16C47F]"
-                    : "w-1.5 bg-white/20 hover:bg-white/40"
-                }`}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Credentials & Experience CTA Section */}
-      <section className="px-8 max-w-7xl mx-auto pb-28 relative z-10">
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8"
-        >
-          {/* Certificates Card */}
-          <motion.div
-            variants={staggerItem}
-            whileHover={{ y: -3 }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
-            className="border border-white/[0.06] rounded-2xl bg-[#0D0F14]/40 px-8 py-10 flex flex-col justify-between items-start gap-6 hover:border-[#FF9D23]/30 transition-colors duration-300"
-          >
-            <div>
-              <span className="text-xs text-[#FF9D23] font-bold tracking-widest uppercase block mb-2">
-                [ 03 / CREDENTIALS ]
-              </span>
-              <h3 className="text-2xl font-light text-white tracking-tight">
-                Backed by{" "}
-                <span className="font-extrabold">formal certifications</span>
-              </h3>
-              <p className="text-gray-400 mt-3 font-light text-sm leading-relaxed">
-                A closer look at the frontend and web programming programs I've
-                completed.
-              </p>
-            </div>
-            <Link
-              to="/certificates"
-              className="px-6 py-2.5 bg-white text-black hover:bg-gray-200 rounded-lg font-bold tracking-wide transition-all duration-300 shadow-xl shadow-white/5 hover:-translate-y-0.5 cursor-pointer text-xs inline-flex items-center gap-2"
-            >
-              View Certificates
-              <svg
-                className="w-3.5 h-3.5 text-[#FF9D23] "
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-                />
-              </svg>
-            </Link>
-          </motion.div>
-
-          {/* Experience Card */}
-          <motion.div
-            variants={staggerItem}
-            whileHover={{ y: -3 }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
-            className="border border-white/[0.06] rounded-2xl bg-[#0D0F14]/40 px-8 py-10 flex flex-col justify-between items-start gap-6 hover:border-[#16C47F]/30 transition-colors duration-300"
-          >
-            <div>
-              <span className="text-xs text-[#16C47F] font-bold tracking-widest uppercase block mb-2">
-                [ 04 / EXPERIENCE ]
-              </span>
-              <h3 className="text-2xl font-light text-white tracking-tight">
-                Orchestration &{" "}
-                <span className="font-extrabold">leadership roles</span>
-              </h3>
-              <p className="text-gray-400 mt-3 font-light text-sm leading-relaxed">
-                Explore my professional background coordinating large-scale
-                events and weddings.
-              </p>
-            </div>
-            <Link
-              to="/experience"
-              className="px-6 py-2.5 bg-white text-black hover:bg-gray-200 rounded-lg font-bold tracking-wide transition-all duration-300 hover:-translate-y-0.5 cursor-pointer text-xs inline-flex items-center gap-2"
-            >
-              View Experience
-              <svg
-                className="w-3.5 h-3.5 text-[#16C47F]"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-                />
-              </svg>
-            </Link>
-          </motion.div>
-        </motion.div>
-      </section>
+        {/* Image Lightbox Zoom Overlay */}
+        <ImageLightboxModal
+          zoomedImage={zoomedImage}
+          setZoomedImage={setZoomedImage}
+          zoomIndex={zoomIndex}
+          setZoomIndex={setZoomIndex}
+          zoomNavigate={zoomNavigate}
+        />
+      </Suspense>
 
       {/* Footer */}
       <footer
@@ -1094,11 +499,9 @@ export default function Portfolio() {
         className="py-14 text-gray-500 border-t border-white/[0.08] mt-auto bg-[#050608] relative z-10"
       >
         <div className="max-w-7xl mx-auto px-6 sm:px-8">
-          {/* Glowing Top Gradient Line */}
           <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-[#FF9D23]/40 to-transparent mb-10" />
 
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            {/* Left Info & Copyright */}
             <div className="flex flex-col items-center md:items-start gap-1.5 text-center md:text-left">
               <span className="text-sm font-semibold text-white tracking-wide flex items-center gap-2">
                 Farrel Farhan
@@ -1113,9 +516,7 @@ export default function Portfolio() {
               </p>
             </div>
 
-            {/* Right Highlighted Social Links Pills */}
             <div className="flex flex-wrap items-center justify-center gap-2.5">
-              {/* GitHub */}
               <motion.a
                 whileHover={{ y: -3, scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
@@ -1139,7 +540,6 @@ export default function Portfolio() {
                 <span>GitHub</span>
               </motion.a>
 
-              {/* LinkedIn */}
               <motion.a
                 whileHover={{ y: -3, scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
@@ -1159,7 +559,6 @@ export default function Portfolio() {
                 <span>LinkedIn</span>
               </motion.a>
 
-              {/* Instagram */}
               <motion.a
                 whileHover={{ y: -3, scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
@@ -1179,7 +578,6 @@ export default function Portfolio() {
                 <span>Instagram</span>
               </motion.a>
 
-              {/* Email */}
               <motion.a
                 whileHover={{ y: -3, scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
@@ -1205,7 +603,6 @@ export default function Portfolio() {
                 <span>Email</span>
               </motion.a>
 
-              {/* WhatsApp */}
               <motion.a
                 whileHover={{ y: -3, scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
@@ -1228,473 +625,6 @@ export default function Portfolio() {
           </div>
         </div>
       </footer>
-
-      {/* Modal Popup */}
-      <AnimatePresence>
-        {selectedProject && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-hidden pointer-events-auto">
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setSelectedProject(null)}
-              className="fixed inset-0 bg-[#050608]/95 md:backdrop-blur-md"
-            ></motion.div>
-
-            {/* Modal Body */}
-            <motion.div
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="project-modal-title"
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 16 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="relative bg-[#0D0F14] border border-white/[0.08] rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden z-10 flex flex-col max-h-[85vh] md:max-h-[90vh] accelerate-gpu"
-            >
-              {/* Close Button */}
-              <button
-                ref={closeButtonRef}
-                onClick={() => setSelectedProject(null)}
-                className="absolute top-4 right-4 z-20 p-1.5 rounded-full bg-black/60 hover:bg-black/80 text-gray-400 hover:text-white border border-white/[0.08] transition-colors duration-300 md:backdrop-blur-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#16C47F]"
-                aria-label="Close modal"
-              >
-                <svg
-                  className="w-4.5 h-4.5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-
-              {/* Image Banner */}
-              {selectedProject.images && selectedProject.images.length > 0 ? (
-                <div className="relative flex flex-col border-b border-white/[0.04]">
-                  {/* Browser chrome */}
-                  <div className="bg-[#0D0F14] flex items-center px-4 py-2.5 gap-2 border-b border-white/[0.03] shrink-0">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#F93827]/70"></span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#FFD65A]/70"></span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#16C47F]/70"></span>
-                    <span className="ml-3 flex-1 bg-white/[0.03] rounded text-[10px] text-gray-500 h-5 flex items-center px-3 truncate max-w-xs">
-                      {selectedProject.liveUrl &&
-                      selectedProject.liveUrl !== "#"
-                        ? selectedProject.liveUrl.replace("https://", "")
-                        : selectedProject.title}
-                    </span>
-                  </div>
-                  {/* Screenshot — full-bleed, cropped to top */}
-                  {/* Screenshot — tampil penuh tanpa terpotong */}
-                  <div
-                    className="h-56 sm:h-72 md:h-80 overflow-hidden relative bg-[#050608] cursor-zoom-in group/zoom"
-                    onClick={() => {
-                      setZoomedImage({
-                        src: selectedProject.images[activeImageIndex],
-                        alt:
-                          selectedProject.imageLabels?.[activeImageIndex] ??
-                          selectedProject.title,
-                        images: selectedProject.images,
-                        labels: selectedProject.imageLabels,
-                      });
-                      setZoomIndex(activeImageIndex);
-                    }}
-                  >
-                    <motion.img
-                      key={activeImageIndex}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.25, ease: "easeOut" }}
-                      src={selectedProject.images[activeImageIndex]}
-                      alt={`${selectedProject.title} – ${
-                        selectedProject.imageLabels?.[activeImageIndex] ??
-                        `view ${activeImageIndex + 1}`
-                      }`}
-                      className="w-full h-full object-contain object-top p-3 sm:p-4 group-hover/zoom:scale-[1.02] transition-transform duration-300 accelerate-gpu"
-                    />
-                    <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#0D0F14] to-transparent pointer-events-none" />
-                    {/* Zoom hint */}
-                    <div className="absolute top-3 right-3 opacity-0 group-hover/zoom:opacity-100 transition-opacity duration-200 bg-black/60 md:backdrop-blur-md rounded-full p-1.5 border border-white/10">
-                      <svg
-                        className="w-4 h-4 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                  {/* Tab switcher */}
-                  {selectedProject.images.length > 1 && (
-                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 bg-[#050608]/90 md:backdrop-blur-md p-1 rounded-full border border-white/[0.06] shadow-xl z-20">
-                      {selectedProject.images.map((_, idx) => (
-                        <button
-                          key={idx}
-                          onClick={() => setActiveImageIndex(idx)}
-                          className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 cursor-pointer ${
-                            activeImageIndex === idx
-                              ? "bg-white text-black shadow-lg"
-                              : "text-gray-400 hover:text-white hover:bg-white/5"
-                          }`}
-                        >
-                          {selectedProject.imageLabels?.[idx] ||
-                            `View ${idx + 1}`}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ) : selectedProject.image ? (
-                <div className="relative flex flex-col border-b border-white/[0.04]">
-                  {/* Browser chrome */}
-                  <div className="bg-[#0D0F14] flex items-center px-4 py-2.5 gap-2 border-b border-white/[0.03] shrink-0">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#F93827]/70"></span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#FFD65A]/70"></span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#16C47F]/70"></span>
-                    <span className="ml-3 flex-1 bg-white/[0.03] rounded text-[10px] text-gray-500 h-5 flex items-center px-3 truncate max-w-xs">
-                      {selectedProject.liveUrl &&
-                      selectedProject.liveUrl !== "#"
-                        ? selectedProject.liveUrl.replace("https://", "")
-                        : selectedProject.title}
-                    </span>
-                  </div>
-                  {/* Screenshot — full-bleed, cropped to top */}
-                  <div
-                    className="h-56 sm:h-72 md:h-80 overflow-hidden relative bg-[#050608] cursor-zoom-in group/zoom"
-                    onClick={() => {
-                      setZoomedImage({
-                        src: selectedProject.image,
-                        alt: selectedProject.title,
-                        images: null,
-                        labels: null,
-                      });
-                      setZoomIndex(0);
-                    }}
-                  >
-                    <motion.img
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.25, ease: "easeOut" }}
-                      src={selectedProject.image}
-                      alt={selectedProject.title}
-                      className="w-full h-full object-contain object-top p-3 sm:p-4 group-hover/zoom:scale-[1.02] transition-transform duration-300 accelerate-gpu"
-                    />
-                    <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#0D0F14] to-transparent pointer-events-none" />
-                    {/* Zoom hint */}
-                    <div className="absolute top-3 right-3 opacity-0 group-hover/zoom:opacity-100 transition-opacity duration-200 bg-black/60 md:backdrop-blur-md rounded-full p-1.5 border border-white/10">
-                      <svg
-                        className="w-4 h-4 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="h-40 bg-gray-800 flex items-center justify-center text-gray-500 font-semibold border-b border-white/[0.04]">
-                  Image Placeholder
-                </div>
-              )}
-
-              {/* Content Container (Scrollable) */}
-              <div
-                style={{ touchAction: "pan-y", WebkitOverflowScrolling: "touch" }}
-                className="p-6 sm:p-8 overflow-y-auto space-y-6 flex-1"
-              >
-                <div>
-                  <h3
-                    id="project-modal-title"
-                    className="text-2xl sm:text-3xl font-extrabold text-white mb-2"
-                  >
-                    {selectedProject.title}
-                  </h3>
-                  <div className="flex flex-wrap gap-2 mt-3">
-                    {selectedProject.technologies?.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-3 py-1 text-xs font-semibold bg-white/[0.04] text-white border border-white/[0.06] rounded-md"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
-                    About Project
-                  </h4>
-                  <p className="text-gray-400 text-sm sm:text-base leading-relaxed font-light">
-                    {selectedProject.longDescription ||
-                      selectedProject.description}
-                  </p>
-                </div>
-
-                {selectedProject.features &&
-                  selectedProject.features.length > 0 && (
-                    <div className="space-y-3">
-                      <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
-                        Key Features
-                      </h4>
-                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-400">
-                        {selectedProject.features.map((feature, idx) => (
-                          <li
-                            key={idx}
-                            className="flex items-start gap-2.5 font-light"
-                          >
-                            <svg
-                              className="w-4 h-4 text-[#16C47F] shrink-0 mt-0.5"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2.5"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M4.5 12.75l6 6 9-13.5"
-                              />
-                            </svg>
-                            <span>{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-              </div>
-
-              {/* Action Buttons Footer */}
-              <div className="p-6 border-t border-white/[0.04] bg-[#0D0F14]/95 md:backdrop-blur-sm flex items-center justify-end gap-3">
-                <button
-                  onClick={() => setSelectedProject(null)}
-                  className="px-5 py-2 rounded-lg bg-transparent hover:bg-white/[0.04] text-gray-400 hover:text-white transition duration-300 font-semibold text-xs tracking-wider uppercase cursor-pointer"
-                >
-                  Close
-                </button>
-
-                {selectedProject.liveUrl && selectedProject.liveUrl !== "#" && (
-                  <motion.a
-                    whileHover={{ y: -2 }}
-                    transition={{ duration: 0.25, ease: "easeOut" }}
-                    href={selectedProject.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-5 py-2.5 rounded-lg bg-white hover:bg-gray-200 text-black transition-colors duration-300 font-bold text-xs tracking-wider uppercase flex items-center gap-2 cursor-pointer"
-                  >
-                    Visit Website
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
-                      />
-                    </svg>
-                  </motion.a>
-                )}
-
-                {(!selectedProject.liveUrl ||
-                  selectedProject.liveUrl === "#") &&
-                  selectedProject.githubUrl && (
-                    <motion.a
-                      whileHover={{ y: -2 }}
-                      transition={{ duration: 0.25, ease: "easeOut" }}
-                      href={selectedProject.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-5 py-2.5 rounded-lg bg-white hover:bg-gray-200 text-black transition-colors duration-300 font-bold text-xs tracking-wider uppercase flex items-center gap-2 cursor-pointer"
-                    >
-                      View on GitHub
-                      <svg
-                        className="w-4 h-4"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"
-                        />
-                      </svg>
-                    </motion.a>
-                  )}
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
-      {/* ============ LIGHTBOX ZOOM OVERLAY ============ */}
-      <AnimatePresence>
-        {zoomedImage && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[60] flex items-center justify-center bg-black/95 md:backdrop-blur-xl"
-            onClick={() => setZoomedImage(null)}
-          >
-            {/* Image */}
-            <motion.div
-              key={zoomIndex}
-              initial={{ opacity: 0, scale: 0.92 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="relative max-w-[95vw] max-h-[90vh] flex items-center justify-center"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <img
-                src={
-                  zoomedImage.images
-                    ? zoomedImage.images[zoomIndex]
-                    : zoomedImage.src
-                }
-                alt={
-                  zoomedImage.labels
-                    ? (zoomedImage.labels[zoomIndex] ?? zoomedImage.alt)
-                    : zoomedImage.alt
-                }
-                className="max-w-[90vw] max-h-[85vh] object-contain rounded-xl shadow-2xl select-none"
-                draggable={false}
-              />
-              {/* Label */}
-              {zoomedImage.labels && (
-                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-md text-white text-xs font-semibold px-4 py-1.5 rounded-full border border-white/10">
-                  {zoomedImage.labels[zoomIndex] ?? `View ${zoomIndex + 1}`}
-                </div>
-              )}
-            </motion.div>
-
-            {/* Prev button */}
-            {zoomedImage.images && zoomedImage.images.length > 1 && (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  zoomNavigate(-1);
-                }}
-                className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all duration-200 cursor-pointer backdrop-blur-md"
-                aria-label="Previous image"
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15 19l-7-7 7-7"
-                  />
-                </svg>
-              </button>
-            )}
-
-            {/* Next button */}
-            {zoomedImage.images && zoomedImage.images.length > 1 && (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  zoomNavigate(1);
-                }}
-                className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all duration-200 cursor-pointer backdrop-blur-md"
-                aria-label="Next image"
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </button>
-            )}
-
-            {/* Dot indicators */}
-            {zoomedImage.images && zoomedImage.images.length > 1 && (
-              <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 pb-8">
-                {zoomedImage.images.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setZoomIndex(idx);
-                    }}
-                    className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                      idx === zoomIndex
-                        ? "w-6 bg-white"
-                        : "w-1.5 bg-white/30 hover:bg-white/60"
-                    }`}
-                    aria-label={`Go to image ${idx + 1}`}
-                  />
-                ))}
-              </div>
-            )}
-
-            {/* Close button */}
-            <button
-              onClick={() => setZoomedImage(null)}
-              className="absolute top-4 right-4 z-30 p-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all duration-200 cursor-pointer backdrop-blur-md"
-              aria-label="Close zoom"
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-
-            {/* Counter */}
-            {zoomedImage.images && zoomedImage.images.length > 1 && (
-              <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-black/60 backdrop-blur-md text-white/60 text-xs font-mono px-3 py-1 rounded-full border border-white/10">
-                {zoomIndex + 1} / {zoomedImage.images.length}
-              </div>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }

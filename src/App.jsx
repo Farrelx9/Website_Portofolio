@@ -5,6 +5,7 @@ import Certificates from "./pages/Certificate";
 import Experience from "./pages/Experience";
 import LoadingScreen from "./components/LoadingScreen";
 import ScrollToTop from "./ScrollToTop";
+import { ThemeProvider } from "./ThemeContext";
 
 // ==========================================
 // CONFIGURATION: SET SIMULATED LOADING DURATION
@@ -23,33 +24,26 @@ export default function App() {
   const loadingDurationMs = LOADING_DURATION_MINUTES * 60 * 1000;
 
   return (
-    <div>
-      {/* 
-        Loading Screen Component
-        - duration: Total duration of simulated loading in milliseconds
-        - show: Boolean visibility controller
-        - onComplete: Callback run when loading finishes and exit animation completes
-        
-        Note: If you want to control this programmatically later using standard functions 
-        or react-router-dom navigation states, you can set the `show` prop to your loading state.
-      */}
-      <LoadingScreen
-        duration={loadingDurationMs}
-        show={isLoading}
-        onComplete={() => {
-          setIsLoading(false);
-          console.log("Loading complete, portfolio mounted!");
-        }}
-      />
+    <ThemeProvider>
+      <div>
+        <LoadingScreen
+          duration={loadingDurationMs}
+          show={isLoading}
+          onComplete={() => {
+            setIsLoading(false);
+            console.log("Loading complete, portfolio mounted!");
+          }}
+        />
 
-      <BrowserRouter>
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<Portfolio />} />
-          <Route path="/certificates" element={<Certificates />} />
-          <Route path="/experience" element={<Experience />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+        <BrowserRouter>
+          <ScrollToTop />
+          <Routes>
+            <Route path="/" element={<Portfolio />} />
+            <Route path="/certificates" element={<Certificates />} />
+            <Route path="/experience" element={<Experience />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
+    </ThemeProvider>
   );
 }

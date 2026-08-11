@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import Navbar from "../components/Navbar";
 import certificateBinar from "../assets/Studi Independen_Cycle6_Cert_Farrel Farhan-1.png";
 import certificateLsp from "../assets/Sertif LSP-1.png";
 import certificateEpt from "../assets/EPT-1.png";
@@ -192,129 +193,8 @@ export default function Certificates() {
       {/* Decorative fine-line grid overlay */}
       <div className="absolute inset-0 max-w-7xl mx-auto border-x border-white/[0.02] pointer-events-none z-0"></div>
 
-      {/* Navbar */}
-      <nav className="flex justify-between items-center px-8 py-5 sticky top-0 z-40 bg-[#050608]/80 backdrop-blur-lg border-b border-white/[0.04]">
-        <Link to="/" className="flex items-center gap-2.5">
-          <span className="w-2 h-2 rounded-full bg-[#16C47F]"></span>
-          <h1 className="text-lg font-bold tracking-widest text-white uppercase">
-            Farrel Farhan
-          </h1>
-        </Link>
-        <ul className="hidden md:flex space-x-8 text-sm font-medium tracking-wider">
-          <li className="text-gray-400 hover:text-white cursor-pointer transition-colors duration-300 flex items-center gap-1.5">
-            <Link to="/" className="flex items-center gap-1.5">
-              <span className="text-[10px] text-[#16C47F] font-bold">01/</span>{" "}
-              Home
-            </Link>
-          </li>
-          <li className="text-gray-400 hover:text-white cursor-pointer transition-colors duration-300 flex items-center gap-1.5">
-            <a href="/#projects" className="flex items-center gap-1.5">
-              <span className="text-[10px] text-[#FFD65A] font-bold">02/</span>{" "}
-              Projects
-            </a>
-          </li>
-          <li className="text-white cursor-pointer transition-colors duration-300 flex items-center gap-1.5">
-            <span className="text-[10px] text-[#FF9D23] font-bold">03/</span>{" "}
-            Certificates
-          </li>
-          <li className="text-gray-400 hover:text-white cursor-pointer transition-colors duration-300 flex items-center gap-1.5">
-            <Link to="/experience" className="flex items-center gap-1.5">
-              <span className="text-[10px] text-[#16C47F] font-bold">04/</span>{" "}
-              Experience
-            </Link>
-          </li>
-        </ul>
-
-        {/* Mobile hamburger toggle */}
-        <button
-          onClick={() => setMobileMenuOpen((v) => !v)}
-          className="md:hidden p-2 -mr-2 text-gray-300 hover:text-white cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#16C47F] rounded-md"
-          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-          aria-expanded={mobileMenuOpen}
-        >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-          >
-            {mobileMenuOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            )}
-          </svg>
-        </button>
-      </nav>
-
-      {/* Mobile nav panel */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="md:hidden sticky top-[73px] z-30 bg-[#050608]/95 backdrop-blur-lg border-b border-white/[0.06] overflow-hidden"
-          >
-            <ul className="flex flex-col px-8 py-4 gap-4 text-sm font-medium tracking-wider">
-              <li>
-                <Link
-                  to="/"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-gray-400 hover:text-white flex items-center gap-1.5"
-                >
-                  <span className="text-[10px] text-[#16C47F] font-bold">
-                    01/
-                  </span>{" "}
-                  Home
-                </Link>
-              </li>
-              <li>
-                <a
-                  href="/#projects"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-gray-400 hover:text-white flex items-center gap-1.5"
-                >
-                  <span className="text-[10px] text-[#FFD65A] font-bold">
-                    02/
-                  </span>{" "}
-                  Projects
-                </a>
-              </li>
-              <li>
-                <span className="text-white flex items-center gap-1.5">
-                  <span className="text-[10px] text-[#FF9D23] font-bold">
-                    03/
-                  </span>{" "}
-                  Certificates
-                </span>
-              </li>
-              <li>
-                <Link
-                  to="/experience"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-gray-400 hover:text-white flex items-center gap-1.5"
-                >
-                  <span className="text-[10px] text-[#16C47F] font-bold">
-                    04/
-                  </span>{" "}
-                  Experience
-                </Link>
-              </li>
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Floating Capsule Navbar */}
+      <Navbar />
 
       {/* Header */}
       <header className="py-20 md:py-28 px-8 max-w-7xl mx-auto relative z-10">
@@ -450,7 +330,10 @@ export default function Certificates() {
       </section>
 
       {/* Footer */}
-      <footer id="footer" className="py-14 text-gray-500 border-t border-white/[0.08] mt-auto bg-[#050608] relative z-10">
+      <footer
+        id="footer"
+        className="py-14 text-gray-500 border-t border-white/[0.08] mt-auto bg-[#050608] relative z-10"
+      >
         <div className="max-w-7xl mx-auto px-6 sm:px-8">
           {/* Glowing Top Gradient Line */}
           <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-[#FF9D23]/40 to-transparent mb-10" />

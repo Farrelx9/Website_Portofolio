@@ -1,1 +1,155 @@
 @import "tailwindcss";
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   THEME CUSTOM PROPERTIES
+   Dark (default): :root
+   Light:          html.light
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+:root {
+  --t-bg: #050608;
+  --t-surface: #0d0f14;
+  --t-surface-alt: #090a0e;
+  --t-nav: rgba(13, 14, 21, 0.85);
+  --t-nav-scrolled: rgba(9, 10, 15, 0.95);
+  --t-menu: rgba(13, 14, 23, 0.95);
+  --t-text: #ffffff;
+  --t-muted: #9ca3af;
+  --t-dim: #6b7280;
+  --t-border: rgba(255, 255, 255, 0.06);
+  --t-border-sm: rgba(255, 255, 255, 0.04);
+  --t-subtle: rgba(255, 255, 255, 0.03);
+  --t-shadow: 0 10px 35px rgba(0, 0, 0, 0.7);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ELEGANT LIGHT MODE PALETTE
+   Cool blue-white tone — sophisticated, airy, premium
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+html.light {
+  color-scheme: light;
+
+  /* Page bg: barely-perceptible lavender-white — avoids harsh pure white */
+  --t-bg: #f5f6fa;
+  /* Cards: pure white — pops cleanly above the bg */
+  --t-surface: #ffffff;
+  /* Alternate surfaces: soft cool-gray */
+  --t-surface-alt: #eaecf2;
+  /* Navbar: frosted crystal glass */
+  --t-nav: rgba(255, 255, 255, 0.82);
+  --t-nav-scrolled: rgba(245, 246, 250, 0.95);
+  --t-menu: rgba(245, 246, 250, 0.96);
+  /* Text: deep blue-black (warmer, more refined than pure #000) */
+  --t-text: #0b0d1a;
+  /* Muted: cool blue-slate */
+  --t-muted: #5a6480;
+  --t-dim: #8b96ab;
+  /* Borders: translucent dark */
+  --t-border: rgba(11, 13, 26, 0.09);
+  --t-border-sm: rgba(11, 13, 26, 0.05);
+  --t-subtle: rgba(11, 13, 26, 0.03);
+  --t-shadow: 0 10px 35px rgba(0, 0, 0, 0.09);
+}
+
+/* ── Smooth theme transitions ── */
+*,
+*::before,
+*::after {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: 0.28s;
+  transition-timing-function: ease;
+}
+
+/* Kill transitions on elements that rely on animation timing */
+[data-no-transition] {
+  transition: none !important;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   LIGHT MODE CSS OVERRIDES
+   NOTE: Inside [class*="..."] quotes, characters like
+   [ ] # are literal — NO backslash escaping needed.
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* ── Page Root Background ── */
+html.light [class*="bg-[#050608"] {
+  background-color: var(--t-bg) !important;
+  background-image: radial-gradient(
+    rgba(11, 13, 26, 0.045) 1px,
+    transparent 1px
+  ) !important;
+}
+
+/* ── Card / Surface Backgrounds ── */
+html.light [class*="bg-[#0D0F14"],
+html.light [class*="bg-[#0d0f14"] {
+  background-color: var(--t-surface) !important;
+}
+
+html.light [class*="bg-[#090A0E"],
+html.light [class*="bg-[#090a0e"] {
+  background-color: var(--t-surface-alt) !important;
+}
+
+/* ── Navbar Pill ── */
+html.light [class*="bg-[#0d0e15"] {
+  background-color: var(--t-nav) !important;
+}
+
+html.light [class*="bg-[#090a0f"] {
+  background-color: var(--t-nav-scrolled) !important;
+}
+
+html.light [class*="bg-[#0d0e17"] {
+  background-color: var(--t-menu) !important;
+}
+
+/* ── Loading Screen ── */
+html.light .bg-gray-950 {
+  background-color: var(--t-bg) !important;
+}
+html.light .bg-gray-900 {
+  background-color: #dde0ea !important;
+}
+html.light .bg-gray-800 {
+  background-color: #c8ccd9 !important;
+}
+
+/* ── Translucent White Overlays → Translucent Dark ── */
+html.light [class*="bg-white/"] {
+  background-color: var(--t-subtle) !important;
+}
+
+/* ── Text ── */
+html.light .text-white {
+  color: var(--t-text) !important;
+}
+html.light .text-gray-100 {
+  color: #1a1e2e !important;
+}
+html.light .text-gray-200 {
+  color: #2c3148 !important;
+}
+html.light .text-gray-300 {
+  color: #3d4560 !important;
+}
+html.light .text-gray-400 {
+  color: var(--t-muted) !important;
+}
+html.light .text-gray-500 {
+  color: var(--t-dim) !important;
+}
+
+/* ── Borders ── */
+html.light [class*="border-white/"] {
+  border-color: var(--t-border) !important;
+}
+
+/* ── Shadows ── */
+html.light [class*="shadow-[0_10px"] {
+  box-shadow: var(--t-shadow) !important;
+}
+
+html.light .shadow-2xl {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08) !important;
+}

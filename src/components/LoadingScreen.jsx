@@ -64,7 +64,7 @@ export default function LoadingScreen({
             y: -30,
             transition: { duration: 0.6, ease: [0.43, 0.13, 0.23, 0.96] },
           }}
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gray-950 text-white select-none"
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gray-950 text-white select-none"
         >
           {/* Ambient Glows */}
           <div className="absolute top-1/3 left-1/4 w-[350px] h-[350px] rounded-full bg-blue-500/10 blur-[100px] pointer-events-none"></div>

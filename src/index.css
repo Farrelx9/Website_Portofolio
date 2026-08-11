@@ -7,6 +7,7 @@
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 :root {
+  color-scheme: dark;
   --t-bg: #050608;
   --t-surface: #0d0f14;
   --t-surface-alt: #090a0e;
@@ -20,6 +21,12 @@
   --t-border-sm: rgba(255, 255, 255, 0.04);
   --t-subtle: rgba(255, 255, 255, 0.03);
   --t-shadow: 0 10px 35px rgba(0, 0, 0, 0.7);
+}
+
+html,
+body {
+  background-color: var(--t-bg);
+  overscroll-behavior-y: none;
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

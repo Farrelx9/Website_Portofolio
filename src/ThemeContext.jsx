@@ -13,6 +13,15 @@ export function ThemeProvider({ children }) {
     html.classList.remove("light", "dark");
     html.classList.add(theme);
     localStorage.setItem("portfolio-theme", theme);
+
+    // Update meta theme-color dynamically for mobile devices
+    const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+    if (themeColorMeta) {
+      themeColorMeta.setAttribute(
+        "content",
+        theme === "dark" ? "#050608" : "#f5f6fa"
+      );
+    }
   }, [theme]);
 
   const toggleTheme = () =>

@@ -681,8 +681,9 @@ export default function Portfolio() {
               <motion.a
                 whileHover={{ y: -2 }}
                 transition={{ duration: 0.25, ease: "easeOut" }}
-                href="/cv-farrel-farhan.pdf"
-                download="CV_Farrel_Farhan.pdf"
+                href="/CV_FarrelFarhan.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group px-7 py-3 bg-white/[0.02] hover:bg-white/[0.04] border border-white/[0.08] hover:border-[#FF9D23] text-gray-300 hover:text-white rounded-lg font-semibold tracking-wide transition-colors duration-300 cursor-pointer text-sm inline-flex items-center gap-2"
               >
                 <svg

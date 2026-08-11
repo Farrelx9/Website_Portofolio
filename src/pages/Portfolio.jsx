@@ -50,7 +50,7 @@ const Reveal = ({
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once, amount }}
     transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
-    className={className}
+    className={`accelerate-gpu ${className}`}
   >
     {children}
   </motion.div>

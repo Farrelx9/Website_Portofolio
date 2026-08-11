@@ -249,6 +249,8 @@ export default function Certificates() {
                 <img
                   src={cert.image}
                   alt={cert.title}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-contain transform transition-all duration-700 ease-out group-hover:scale-105"
                 />
                 {cert.reportImages && (
@@ -510,6 +512,8 @@ export default function Certificates() {
                   <img
                     src={getCurrentImageSource(selectedCertificate)}
                     alt={selectedCertificate.title}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-contain"
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover/zoom:bg-black/10 transition-colors duration-300 flex items-end justify-end p-3 pointer-events-none">

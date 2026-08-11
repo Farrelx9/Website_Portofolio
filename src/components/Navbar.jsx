@@ -76,7 +76,7 @@ export default function Navbar() {
         initial={{ y: -30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className={`pointer-events-auto flex items-center gap-1 sm:gap-2 px-3 sm:px-5 py-2 sm:py-2.5 rounded-full backdrop-blur-xl border shadow-[0_10px_35px_rgba(0,0,0,0.7)] transition-all duration-300 ${
+        className={`pointer-events-auto flex items-center gap-1 sm:gap-2 px-3 sm:px-5 py-2 sm:py-2.5 rounded-full backdrop-blur-xl accelerate-gpu border shadow-[0_10px_35px_rgba(0,0,0,0.7)] transition-all duration-300 ${
           scrolled
             ? "bg-[#090a0f]/95 border-white/[0.14]"
             : "bg-[#0d0e15]/85 border-white/10"
@@ -155,7 +155,7 @@ export default function Navbar() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -8 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="pointer-events-auto absolute top-[3.5rem] left-4 right-4 sm:hidden bg-[#0d0e17]/95 backdrop-blur-2xl border border-white/10 rounded-2xl p-3 shadow-2xl"
+            className="pointer-events-auto absolute top-[3.5rem] left-4 right-4 sm:hidden bg-[#0d0e17]/95 backdrop-blur-lg accelerate-gpu border border-white/10 rounded-2xl p-3 shadow-2xl"
           >
             <ul className="flex flex-col gap-1 text-sm font-semibold uppercase tracking-wider">
               {navItems.map((item) => {

@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "../components/Navbar";
 
 export default function Experience() {
-  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const experiences = [
     {
       id: 1,

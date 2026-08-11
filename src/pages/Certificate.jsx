@@ -21,7 +21,6 @@ export default function Certificates() {
   const [activeTab, setActiveTab] = React.useState("certificate"); // 'certificate' | 'transcript' | 'report'
   const [reportPage, setReportPage] = React.useState(0);
   const [lightboxOpen, setLightboxOpen] = React.useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   const certificates = [
     {

@@ -84,21 +84,24 @@ const cardItemVariants = {
 // Update slideVariants agar ada efek scale sedikit saat geser (lebih halus)
 const slideVariants = {
   enter: (dir) => ({
-    x: dir > 0 ? 80 : -80,
+    x: dir > 0 ? "100%" : "-100%",
     opacity: 0,
-    scale: 0.97,
   }),
   center: {
-    x: 0,
+    x: "0%",
     opacity: 1,
-    scale: 1,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+    transition: {
+      x: { type: "spring", stiffness: 300, damping: 32 },
+      opacity: { duration: 0.25 },
+    },
   },
   exit: (dir) => ({
-    x: dir > 0 ? -80 : 80,
+    x: dir > 0 ? "-100%" : "100%",
     opacity: 0,
-    scale: 0.97,
-    transition: { duration: 0.35, ease: [0.4, 0, 1, 1] },
+    transition: {
+      x: { type: "spring", stiffness: 300, damping: 32 },
+      opacity: { duration: 0.25 },
+    },
   }),
 };
 const staggerItem = {
@@ -308,12 +311,6 @@ export default function Portfolio() {
     return () => clearInterval(timer);
   }, [isPaused, currentIndex]);
 
-  const slideVariants = {
-    enter: (dir) => ({ x: dir > 0 ? 60 : -60, opacity: 0 }),
-    center: { x: 0, opacity: 1 },
-    exit: (dir) => ({ x: dir > 0 ? -60 : 60, opacity: 0 }),
-  };
-
   // Keep isMobile in sync with actual viewport changes (resize, rotation)
   React.useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -323,7 +320,6 @@ export default function Portfolio() {
 
   const closeButtonRef = React.useRef(null);
   const lastFocusedRef = React.useRef(null);
-  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [zoomedImage, setZoomedImage] = React.useState(null); // { src, alt, images, index }
   const [zoomIndex, setZoomIndex] = React.useState(0);
 
@@ -759,11 +755,7 @@ export default function Portfolio() {
         >
           {/* Slide track */}
           <div className="relative overflow-hidden rounded-2xl">
-            <AnimatePresence
-              initial={false}
-              custom={direction}
-              mode="popLayout"
-            >
+            <AnimatePresence initial={false} custom={direction} mode="wait">
               {(() => {
                 const project = projects[currentIndex];
                 const hasWebsite = project.liveUrl && project.liveUrl !== "#";
@@ -775,31 +767,30 @@ export default function Portfolio() {
                 return (
                   <motion.div
                     key={project.id}
-                    layout
                     custom={direction}
                     variants={slideVariants}
                     initial="enter"
                     animate="center"
                     exit="exit"
-                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    style={{ touchAction: "pan-y" }}
                     drag="x"
                     dragConstraints={{ left: 0, right: 0 }}
-                    dragElastic={0.2}
+                    dragElastic={0.15}
                     onDragEnd={(e, info) => {
-                      if (info.offset.x < -80) paginate(1);
-                      else if (info.offset.x > 80) paginate(-1);
+                      if (info.offset.x < -60) paginate(1);
+                      else if (info.offset.x > 60) paginate(-1);
                     }}
                     onClick={() => {
                       setSelectedProject(project);
                       setActiveImageIndex(0);
                     }}
-                    className="bg-[#0D0F14]/60 backdrop-blur-sm border border-white/[0.08] hover:border-white/[0.15] rounded-2xl overflow-hidden shadow-2xl shadow-black/20 flex flex-col md:flex-row cursor-pointer group"
+                    className="bg-[#0D0F14]/60 md:backdrop-blur-sm accelerate-gpu border border-white/[0.08] hover:border-white/[0.15] rounded-2xl overflow-hidden shadow-2xl shadow-black/20 flex flex-col md:flex-row cursor-pointer group"
                   >
                     {/* --- SISI GAMBAR (DIPERBAIKI RESPONSIFNYA) --- */}
                     {/* aspect-[4/3] di mobile agar tidak gepeng, md:h-auto di desktop agar proporsional */}
                     <div className="w-full md:w-1/2 aspect-[4/3] md:aspect-auto md:h-auto relative overflow-hidden bg-[#090A0E] border-b md:border-b-0 md:border-r border-white/[0.06] shrink-0">
                       {/* Browser Chrome (Dikecilkan sedikit di mobile agar rapi) */}
-                      <div className="absolute top-0 left-0 right-0 h-7 md:h-8 bg-[#0D0F14]/90 backdrop-blur-md flex items-center px-3 md:px-4 gap-2 z-10 border-b border-white/[0.03]">
+                      <div className="absolute top-0 left-0 right-0 h-7 md:h-8 bg-[#0D0F14]/90 md:backdrop-blur-md flex items-center px-3 md:px-4 gap-2 z-10 border-b border-white/[0.03]">
                         <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-[#F93827]/80"></span>
                         <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-[#FFD65A]/80"></span>
                         <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-[#16C47F]/80"></span>
@@ -829,7 +820,7 @@ export default function Portfolio() {
 
                       {/* Hint "Klik untuk detail" saat hover */}
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                        <span className="bg-black/60 backdrop-blur-md text-white text-xs font-bold px-4 py-2 rounded-full border border-white/10">
+                        <span className="bg-black/60 md:backdrop-blur-md text-white text-xs font-bold px-4 py-2 rounded-full border border-white/10">
                           Click to explore
                         </span>
                       </div>

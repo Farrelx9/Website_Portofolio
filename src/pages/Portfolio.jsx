@@ -1239,7 +1239,7 @@ export default function Portfolio() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedProject(null)}
-              className="fixed inset-0 bg-[#050608]/95 backdrop-blur-md"
+              className="fixed inset-0 bg-[#050608]/95 md:backdrop-blur-md"
             ></motion.div>
 
             {/* Modal Body */}
@@ -1247,17 +1247,17 @@ export default function Portfolio() {
               role="dialog"
               aria-modal="true"
               aria-labelledby="project-modal-title"
-              initial={{ scale: 0.95, opacity: 0, y: 24 }}
+              initial={{ scale: 0.96, opacity: 0, y: 16 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.96, opacity: 0, y: 16 }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="relative bg-[#0D0F14] border border-white/[0.08] rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden z-10 flex flex-col max-h-[85vh] md:max-h-[90vh]"
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className="relative bg-[#0D0F14] border border-white/[0.08] rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden z-10 flex flex-col max-h-[85vh] md:max-h-[90vh] accelerate-gpu"
             >
               {/* Close Button */}
               <button
                 ref={closeButtonRef}
                 onClick={() => setSelectedProject(null)}
-                className="absolute top-4 right-4 z-20 p-1.5 rounded-full bg-white/[0.02] hover:bg-white/[0.08] text-gray-400 hover:text-white border border-white/[0.06] transition-colors duration-300 backdrop-blur-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#16C47F]"
+                className="absolute top-4 right-4 z-20 p-1.5 rounded-full bg-black/60 hover:bg-black/80 text-gray-400 hover:text-white border border-white/[0.08] transition-colors duration-300 md:backdrop-blur-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#16C47F]"
                 aria-label="Close modal"
               >
                 <svg
@@ -1320,7 +1320,7 @@ export default function Portfolio() {
                     />
                     <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#0D0F14] to-transparent pointer-events-none" />
                     {/* Zoom hint */}
-                    <div className="absolute top-3 right-3 opacity-0 group-hover/zoom:opacity-100 transition-opacity duration-200 bg-black/60 backdrop-blur-md rounded-full p-1.5 border border-white/10">
+                    <div className="absolute top-3 right-3 opacity-0 group-hover/zoom:opacity-100 transition-opacity duration-200 bg-black/60 md:backdrop-blur-md rounded-full p-1.5 border border-white/10">
                       <svg
                         className="w-4 h-4 text-white"
                         fill="none"
@@ -1338,7 +1338,7 @@ export default function Portfolio() {
                   </div>
                   {/* Tab switcher */}
                   {selectedProject.images.length > 1 && (
-                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 bg-[#050608]/90 backdrop-blur-md p-1 rounded-full border border-white/[0.06] shadow-xl z-20">
+                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 bg-[#050608]/90 md:backdrop-blur-md p-1 rounded-full border border-white/[0.06] shadow-xl z-20">
                       {selectedProject.images.map((_, idx) => (
                         <button
                           key={idx}
@@ -1393,7 +1393,7 @@ export default function Portfolio() {
                     />
                     <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#0D0F14] to-transparent pointer-events-none" />
                     {/* Zoom hint */}
-                    <div className="absolute top-3 right-3 opacity-0 group-hover/zoom:opacity-100 transition-opacity duration-200 bg-black/60 backdrop-blur-md rounded-full p-1.5 border border-white/10">
+                    <div className="absolute top-3 right-3 opacity-0 group-hover/zoom:opacity-100 transition-opacity duration-200 bg-black/60 md:backdrop-blur-md rounded-full p-1.5 border border-white/10">
                       <svg
                         className="w-4 h-4 text-white"
                         fill="none"
@@ -1421,7 +1421,8 @@ export default function Portfolio() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.15, duration: 0.35 }}
-                className="p-6 sm:p-8 overflow-y-auto space-y-6 flex-1"
+                style={{ touchAction: "pan-y" }}
+                className="p-6 sm:p-8 overflow-y-auto space-y-6 flex-1 [webkit-overflow-scrolling:touch] accelerate-gpu"
               >
                 <div>
                   <h3
@@ -1486,7 +1487,7 @@ export default function Portfolio() {
               </motion.div>
 
               {/* Action Buttons Footer */}
-              <div className="p-6 border-t border-white/[0.04] bg-[#0D0F14]/90 backdrop-blur-sm flex items-center justify-end gap-3">
+              <div className="p-6 border-t border-white/[0.04] bg-[#0D0F14]/95 md:backdrop-blur-sm flex items-center justify-end gap-3">
                 <button
                   onClick={() => setSelectedProject(null)}
                   className="px-5 py-2 rounded-lg bg-transparent hover:bg-white/[0.04] text-gray-400 hover:text-white transition duration-300 font-semibold text-xs tracking-wider uppercase cursor-pointer"
@@ -1559,7 +1560,7 @@ export default function Portfolio() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[60] flex items-center justify-center bg-black/95 backdrop-blur-xl"
+            className="fixed inset-0 z-[60] flex items-center justify-center bg-black/95 md:backdrop-blur-xl"
             onClick={() => setZoomedImage(null)}
           >
             {/* Image */}

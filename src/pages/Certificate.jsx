@@ -370,7 +370,7 @@ export default function Certificates() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedCertificate(null)}
-              className="fixed inset-0 bg-[#050608]/95 backdrop-blur-md"
+              className="fixed inset-0 bg-[#050608]/95 md:backdrop-blur-md"
             ></motion.div>
 
             <motion.div
@@ -378,11 +378,11 @@ export default function Certificates() {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.98, opacity: 0, y: 12 }}
               transition={{ duration: 0.35, ease: "easeOut" }}
-              className="relative bg-[#0D0F14] border border-white/[0.08] rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden z-10 flex flex-col max-h-[85vh] md:max-h-[90vh]"
+              className="relative bg-[#0D0F14] border border-white/[0.08] rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden z-10 flex flex-col max-h-[85vh] md:max-h-[90vh] accelerate-gpu"
             >
               <button
                 onClick={() => setSelectedCertificate(null)}
-                className="absolute top-4 right-4 z-25 p-1.5 rounded-full bg-black/60 hover:bg-black/80 text-gray-300 hover:text-white border border-white/[0.1] transition duration-300 backdrop-blur-md cursor-pointer"
+                className="absolute top-4 right-4 z-25 p-1.5 rounded-full bg-black/60 hover:bg-black/80 text-gray-300 hover:text-white border border-white/[0.1] transition duration-300 md:backdrop-blur-md cursor-pointer"
                 aria-label="Close modal"
               >
                 <svg

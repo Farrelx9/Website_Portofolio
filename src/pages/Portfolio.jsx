@@ -604,7 +604,10 @@ export default function Portfolio() {
       </header>
 
       {/* Tech Stack Section */}
-      <section id="skills" className="py-20 px-8 max-w-7xl mx-auto border-t border-white/[0.04] relative z-10">
+      <section
+        id="skills"
+        className="py-20 px-8 max-w-7xl mx-auto border-t border-white/[0.04] relative z-10"
+      >
         <div className="flex flex-col md:flex-row gap-12">
           {/* Section Heading */}
           <Reveal className="md:w-1/3">
@@ -1073,7 +1076,7 @@ export default function Portfolio() {
             </div>
             <Link
               to="/experience"
-              className="px-6 py-2.5 bg-white hover:bg-gray-200 rounded-lg font-bold tracking-wide transition-all duration-300 hover:-translate-y-0.5 cursor-pointer text-xs inline-flex items-center gap-2"
+              className="px-6 py-2.5 bg-white text-black hover:bg-gray-200 rounded-lg font-bold tracking-wide transition-all duration-300 hover:-translate-y-0.5 cursor-pointer text-xs inline-flex items-center gap-2"
             >
               View Experience
               <svg

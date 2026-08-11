@@ -419,19 +419,23 @@ export default function Portfolio() {
       {/* Decorative fine-line grid overlay */}
       <div className="absolute inset-0 max-w-7xl mx-auto border-x border-white/[0.02] pointer-events-none z-0"></div>
 
-      {/* Ambient glow */}
-      <motion.div
-        aria-hidden
-        className="pointer-events-none fixed -top-40 -left-40 w-[32rem] h-[32rem] rounded-full bg-[#16C47F]/[0.04] blur-[140px] z-0"
-        animate={{ x: [0, 20, 0], y: [0, 14, 0] }}
-        transition={{ duration: 32, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        aria-hidden
-        className="pointer-events-none fixed top-1/3 -right-40 w-[28rem] h-[28rem] rounded-full bg-[#FF9D23]/[0.03] blur-[140px] z-0"
-        animate={{ x: [0, -16, 0], y: [0, -20, 0] }}
-        transition={{ duration: 36, repeat: Infinity, ease: "easeInOut" }}
-      />
+      {/* Ambient glow — only on desktop to save mobile Safari GPU frame rate */}
+      {!isMobile && (
+        <>
+          <motion.div
+            aria-hidden
+            className="pointer-events-none fixed -top-40 -left-40 w-[32rem] h-[32rem] rounded-full bg-[#16C47F]/[0.04] blur-[140px] z-0"
+            animate={{ x: [0, 20, 0], y: [0, 14, 0] }}
+            transition={{ duration: 32, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            aria-hidden
+            className="pointer-events-none fixed top-1/3 -right-40 w-[28rem] h-[28rem] rounded-full bg-[#FF9D23]/[0.03] blur-[140px] z-0"
+            animate={{ x: [0, -16, 0], y: [0, -20, 0] }}
+            transition={{ duration: 36, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </>
+      )}
 
       {/* Floating Capsule Navbar */}
       <Navbar />

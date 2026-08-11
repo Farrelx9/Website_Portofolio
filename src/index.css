@@ -36,22 +36,28 @@ body {
   backface-visibility: hidden;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
-  will-change: transform, opacity;
 }
 
-/* WebKit backdrop-filter support */
-@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
-  .backdrop-blur-sm,
-  .backdrop-blur-md,
-  .backdrop-blur-lg,
-  .backdrop-blur-xl,
-  .backdrop-blur-2xl {
-    -webkit-backdrop-filter: var(--tw-backdrop-blur)
-      var(--tw-backdrop-brightness) var(--tw-backdrop-contrast)
-      var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate)
-      var(--tw-backdrop-invert) var(--tw-backdrop-opacity)
-      var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
-  }
+/* WebKit backdrop-filter support for iOS Safari */
+.backdrop-blur-sm {
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+.backdrop-blur-md {
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+.backdrop-blur-lg {
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+.backdrop-blur-xl {
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+}
+.backdrop-blur-2xl {
+  -webkit-backdrop-filter: blur(40px);
+  backdrop-filter: blur(40px);
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

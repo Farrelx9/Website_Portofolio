@@ -65,6 +65,7 @@ export default function ProjectCarouselSection({
                   exit="exit"
                   style={{ touchAction: "pan-y" }}
                   drag="x"
+                  dragDirectionLock={true}
                   dragConstraints={{ left: 0, right: 0 }}
                   dragElastic={0.15}
                   onDragEnd={(e, info) => {

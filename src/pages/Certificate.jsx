@@ -223,19 +223,6 @@ export default function Certificates() {
               Experience
             </Link>
           </li>
-          <li className="text-gray-400 hover:text-white cursor-pointer transition-colors duration-300 flex items-center gap-1.5">
-            <a
-              href={`https://wa.me/6282135920275?text=${encodeURIComponent(
-                "Hi, I'm interested in your portfolio—let's connect.",
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5"
-            >
-              <span className="text-[10px] text-gray-400 font-bold">05/</span>{" "}
-              Contact
-            </a>
-          </li>
         </ul>
 
         {/* Mobile hamburger toggle */}
@@ -323,22 +310,6 @@ export default function Certificates() {
                   </span>{" "}
                   Experience
                 </Link>
-              </li>
-              <li>
-                <a
-                  href={`https://wa.me/6282135920275?text=${encodeURIComponent(
-                    "Hi, I'm interested in your portfolio—let's connect.",
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-gray-400 hover:text-white flex items-center gap-1.5"
-                >
-                  <span className="text-[10px] text-gray-400 font-bold">
-                    05/
-                  </span>{" "}
-                  Contact
-                </a>
               </li>
             </ul>
           </motion.div>
@@ -479,17 +450,30 @@ export default function Certificates() {
       </section>
 
       {/* Footer */}
-      <footer className="py-16 text-gray-500 border-t border-white/[0.04] mt-auto bg-[#050608] relative z-10">
-        <div className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row items-center justify-between gap-8">
-          <p className="text-xs tracking-wide order-2 md:order-1">
-            &copy; {new Date().getFullYear()} Farrel Farhan.
-          </p>
-          <Link
-            to="/"
-            className="text-xs text-gray-400 hover:text-[#FFD65A] transition-colors duration-300 order-1 md:order-2"
-          >
-            &larr; Back to Home
-          </Link>
+      <footer id="footer" className="py-14 text-gray-500 border-t border-white/[0.08] mt-auto bg-[#050608] relative z-10">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+          {/* Glowing Top Gradient Line */}
+          <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-[#FF9D23]/40 to-transparent mb-10" />
+
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex flex-col items-center md:items-start gap-1 text-center md:text-left">
+              <span className="text-sm font-semibold text-white tracking-wide">
+                Farrel Farhan
+              </span>
+              <p className="text-xs text-gray-500">
+                &copy; {new Date().getFullYear()} All rights reserved.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <Link
+                to="/"
+                className="px-4 py-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-[#FF9D23]/40 text-xs text-gray-300 hover:text-white transition-all duration-300 flex items-center gap-2 font-medium"
+              >
+                &larr; Back to Home
+              </Link>
+            </div>
+          </div>
         </div>
       </footer>
 

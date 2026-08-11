@@ -1232,7 +1232,7 @@ export default function Portfolio() {
       {/* Modal Popup */}
       <AnimatePresence>
         {selectedProject && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-hidden pointer-events-auto">
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -1247,10 +1247,10 @@ export default function Portfolio() {
               role="dialog"
               aria-modal="true"
               aria-labelledby="project-modal-title"
-              initial={{ scale: 0.96, opacity: 0, y: 16 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.96, opacity: 0, y: 16 }}
-              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 16 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className="relative bg-[#0D0F14] border border-white/[0.08] rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden z-10 flex flex-col max-h-[85vh] md:max-h-[90vh] accelerate-gpu"
             >
               {/* Close Button */}
@@ -1308,15 +1308,15 @@ export default function Portfolio() {
                   >
                     <motion.img
                       key={activeImageIndex}
-                      initial={{ opacity: 0, scale: 1.03 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.35, ease: "easeOut" }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
                       src={selectedProject.images[activeImageIndex]}
                       alt={`${selectedProject.title} – ${
                         selectedProject.imageLabels?.[activeImageIndex] ??
                         `view ${activeImageIndex + 1}`
                       }`}
-                      className="w-full h-full object-contain object-top p-3 sm:p-4 group-hover/zoom:scale-[1.02] transition-transform duration-300"
+                      className="w-full h-full object-contain object-top p-3 sm:p-4 group-hover/zoom:scale-[1.02] transition-transform duration-300 accelerate-gpu"
                     />
                     <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#0D0F14] to-transparent pointer-events-none" />
                     {/* Zoom hint */}
@@ -1384,12 +1384,12 @@ export default function Portfolio() {
                     }}
                   >
                     <motion.img
-                      initial={{ opacity: 0, scale: 1.03 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.4, ease: "easeOut" }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
                       src={selectedProject.image}
                       alt={selectedProject.title}
-                      className="w-full h-full object-contain object-top p-3 sm:p-4 group-hover/zoom:scale-[1.02] transition-transform duration-300"
+                      className="w-full h-full object-contain object-top p-3 sm:p-4 group-hover/zoom:scale-[1.02] transition-transform duration-300 accelerate-gpu"
                     />
                     <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#0D0F14] to-transparent pointer-events-none" />
                     {/* Zoom hint */}
@@ -1417,12 +1417,9 @@ export default function Portfolio() {
               )}
 
               {/* Content Container (Scrollable) */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.15, duration: 0.35 }}
-                style={{ touchAction: "pan-y" }}
-                className="p-6 sm:p-8 overflow-y-auto space-y-6 flex-1 [webkit-overflow-scrolling:touch] accelerate-gpu"
+              <div
+                style={{ touchAction: "pan-y", WebkitOverflowScrolling: "touch" }}
+                className="p-6 sm:p-8 overflow-y-auto space-y-6 flex-1"
               >
                 <div>
                   <h3
@@ -1484,7 +1481,7 @@ export default function Portfolio() {
                       </ul>
                     </div>
                   )}
-              </motion.div>
+              </div>
 
               {/* Action Buttons Footer */}
               <div className="p-6 border-t border-white/[0.04] bg-[#0D0F14]/95 md:backdrop-blur-sm flex items-center justify-end gap-3">
